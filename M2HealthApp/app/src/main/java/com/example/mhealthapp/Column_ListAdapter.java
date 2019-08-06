@@ -33,7 +33,7 @@ public class Column_ListAdapter extends ArrayAdapter<User> {
         if (user != null) {
             TextView medicine_name = (TextView) convertView.findViewById(R.id.Med_name_txt);
             TextView medicine_dose = (TextView) convertView.findViewById(R.id.dose_txt);
-           // TextView medicine_food = (TextView) convertView.findViewById(R.id.food_txt);
+            TextView medicine_food = (TextView) convertView.findViewById(R.id.food_txt);
             TextView medicine_time = (TextView) convertView.findViewById(R.id.time_txt);
 
             if (medicine_name != null) {
@@ -42,9 +42,9 @@ public class Column_ListAdapter extends ArrayAdapter<User> {
             if (medicine_dose != null) {
                 medicine_dose.setText(user.getDose_txt());
             }
-            /*if (medicine_food != null) {
+            if (medicine_food != null) {
                 medicine_food.setText(user.getFood_txt());
-            }*/
+            }
             if (medicine_time != null) {
                 medicine_time.setText(user.getTime_txt());
             }

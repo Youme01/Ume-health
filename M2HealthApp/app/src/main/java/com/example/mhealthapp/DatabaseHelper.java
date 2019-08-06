@@ -17,12 +17,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL1="ID";
     private static final String COL2="name";
     private static final String COL3="dose";
-   // private static final String COL4="food";
-    private static final String COL4="time";
+    private static final String COL4="food";
+    private static final String COL5="time";
 
     //Constructor
     public DatabaseHelper(Context context) {
-        super(context, TABLE_NAME, null, 10679);
+        super(context, TABLE_NAME, null, 10680);
     }
 
 
@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         String createTable = "CREATE TABLE " + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "name  TEXT, dose TEXT, time TEXT )";
+                "name  TEXT, dose TEXT, food TEXT, time TEXT )";
         sqLiteDatabase.execSQL(createTable);
 
     }
@@ -42,15 +42,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public boolean addData(String item1,String item2,String item3){
+    public boolean addData(String item1,String item2,String item3,String item4){
         long res = 0 ;
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(COL2,item1);
             contentValues.put(COL3,item2);
             contentValues.put(COL4,item3);
-            //contentValues.put(COL5,item4);
-
+            contentValues.put(COL5,item4);
             res = db.insert(TABLE_NAME , null ,contentValues);
 
         if(res==-1){

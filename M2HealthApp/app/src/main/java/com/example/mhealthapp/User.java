@@ -5,13 +5,13 @@ package com.example.mhealthapp;
 public class User {
     private String med_text;
     private String dose_text;
-    //private String food_text;
+    private String food_text;
     private String time_text;
 
-    public User(String med_txt,String dose_txt,String time_txt){
+    public User(String med_txt,String dose_txt,String food_txt, String time_txt){
         this.med_text = med_txt;
         this.dose_text = dose_txt;
-       // this.food_text = food_txt;
+        this.food_text = food_txt;
         this.time_text = time_txt;
     }
 
@@ -32,9 +32,9 @@ public class User {
         return dose_text;
     }
 
-   /* public String getFood_txt(){
+    public String getFood_txt(){
         return food_text;
-    }*/
+    }
 
     public String getTime_txt(){
         return time_text;

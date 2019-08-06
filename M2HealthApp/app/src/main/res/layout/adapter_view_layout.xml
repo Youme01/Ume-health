@@ -14,16 +14,15 @@
 
         android:text="Medicine Name"
         android:textColor="@color/maroon"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        />
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/dose_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dose"
-        android:textColor="@color/maroon"
+        android:textColor="#F5465E"
         android:textSize="18sp"
         android:textStyle="bold"
         />
@@ -33,7 +32,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Duration"
-        android:textColor="@color/maroon"
+        android:textColor="#F5465E"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/food_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Before Food"
+        android:textColor="#F5465E"
         android:textSize="18sp"
         android:textStyle="bold"
         />

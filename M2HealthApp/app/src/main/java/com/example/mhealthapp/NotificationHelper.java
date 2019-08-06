@@ -39,9 +39,10 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     public NotificationCompat.Builder getChannelNotification() {
+
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
-                .setContentTitle("Alarm!")
-                .setContentText("Your AlarmManager is working.")
+                .setContentTitle("Pill Reminder")
+                .setContentText("Hey!!It's time to take medicine")
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp);
     }
 }

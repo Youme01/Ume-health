@@ -45,7 +45,7 @@ public class ListViewActivity extends AppCompatActivity {
             int i=0;
             while(data.moveToNext()){
                 //Getting the data to the column
-                user = new User(data.getString(1),data.getString(2),data.getString(3));
+                user = new User(data.getString(1),data.getString(2),data.getString(3),data.getString(4));
                 userlist.add(user);
             }
             Column_ListAdapter adapter =  new Column_ListAdapter(this,R.layout.adapter_view_layout, userlist);
