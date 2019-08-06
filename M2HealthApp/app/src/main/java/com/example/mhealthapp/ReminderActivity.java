@@ -1,8 +1,12 @@
 package com.example.mhealthapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,26 +17,34 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 
 public class ReminderActivity extends AppCompatActivity {
 
     private static final String TAG = "ReminderActivity";
+
     DatabaseHelper mdDatabaseHelper;
+
+    private int notificationid = 1;
+    int hour,min;
+    public TimePicker timePicker;
 
     RadioGroup radioGroup;
     RadioButton radioButton;
     EditText medname;
     Button Time1 , Time2 ,Time3 , save;
     Spinner dose , duration, med ;
-    String format , food , dose_p , time_p , med_p;
+    String format , food , dose_p , time_p , med_p , newEntry;
+    Switch TimeSetOn;
+    TextView Reminder1;
+    Calendar c;
 
-    int hour,min;
-    public TimePicker timePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,28 +52,37 @@ public class ReminderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reminder);
 
         setUpview();
-
-        Calendar c = Calendar.getInstance();
+        mdDatabaseHelper = new DatabaseHelper(this);
+        c = Calendar.getInstance();
         hour = c.get(Calendar.HOUR_OF_DAY);
         min = c.get(Calendar.MINUTE);
 
-        mdDatabaseHelper = new DatabaseHelper(this);
-
-
+        selectTimeFormat(hour);
         Time1.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(ReminderActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(ReminderActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                        TextView Reminder1 = (TextView)findViewById(R.id.Txttime1);
-                        Reminder1.setText(i + ":" + i1);
+
+                        TextView Reminder3 = (TextView)findViewById(R.id.Txttime3);
+                        Reminder3.setText(i + ":" + i1 + " " + format);
+                        c.set(Calendar.HOUR_OF_DAY, i);
+                        c.set(Calendar.MINUTE, i1);
+                        c.set(Calendar.SECOND, 0);
+                        selectTimeFormat(hour);
+                        startAlarm(c);
+
+
                     }
                 },hour,min,true);
                 timePickerDialog.show();
             }
-        });
+            });
+
 
         Time2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +92,13 @@ public class ReminderActivity extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int i, int i1) {
                         TextView Reminder2 = (TextView)findViewById(R.id.Txttime2);
-                        Reminder2.setText(i + ":" + i1);
+                        Reminder2.setText(i + ":" + i1 + " " + format);
+
+                        c.set(Calendar.HOUR_OF_DAY, i);
+                        c.set(Calendar.MINUTE, i1);
+                        c.set(Calendar.SECOND, 0);
+                        selectTimeFormat(hour);
+                        startAlarm(c);
 
                     }
                 },hour,min,true);
@@ -86,7 +113,13 @@ public class ReminderActivity extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int i, int i1) {
                         TextView Reminder3 = (TextView)findViewById(R.id.Txttime3);
-                        Reminder3.setText(i + ":" + i1);
+                        Reminder3.setText(i + ":" + i1 + " " + format);
+
+                        c.set(Calendar.HOUR_OF_DAY, i);
+                        c.set(Calendar.MINUTE, i1);
+                        c.set(Calendar.SECOND, 0);
+                        selectTimeFormat(hour);
+                        startAlarm(c);
 
                     }
                 },hour,min,true);
@@ -153,7 +186,7 @@ public class ReminderActivity extends AppCompatActivity {
 
                // food = radioButton.getText().toString();
 
-                String newEntry = medname.getText().toString();
+                newEntry = medname.getText().toString();
 
                 if (medname.length()!= 0){
                     AddData(newEntry,dose_p,time_p);
@@ -166,6 +199,49 @@ public class ReminderActivity extends AppCompatActivity {
             }
         });
 
+        TimeSetOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+    }
+
+    /*public void updateTimeText(Calendar c){
+        String time_text = "Alarm set for: ";
+        time_text += DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+        Reminder1.setText(time_text);
+    }*/
+
+    public void startAlarm(Calendar c){
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        Toast.makeText(ReminderActivity.this, "Done!", Toast.LENGTH_SHORT).show();
+    }
+
+    //Time Format
+    public void selectTimeFormat( int hour){
+
+        if (hour == 0){
+            hour += 12;
+            format = "AM";
+        }else if(hour == 12){
+            format = "PM";
+        }else if(hour>12){
+            hour -= 12;
+            format = "PM";
+        }else{
+            format = "AM";
+        }
     }
 
     //Saving data local storage
@@ -199,6 +275,18 @@ public class ReminderActivity extends AppCompatActivity {
         Time2 = (Button)findViewById(R.id.time2);
         Time3 = (Button)findViewById(R.id.time3);
         radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
+        TimeSetOn = (Switch)findViewById(R.id.switch1);
     }
 
+  /*  @Override
+    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        c.set(Calendar.MINUTE, minute);
+        c.set(Calendar.SECOND, 0);
+
+        updateTimeText(c);
+        startAlarm(c);
+
+    }*/
 }
