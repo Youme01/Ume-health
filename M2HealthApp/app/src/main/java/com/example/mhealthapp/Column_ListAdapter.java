@@ -3,6 +3,7 @@ package com.example.mhealthapp;
 //PILL REMINDER
 import android.content.Context;
 import android.text.Layout;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,10 @@ import java.util.ArrayList;
 public class Column_ListAdapter extends ArrayAdapter<User> {
 
     // Takes adapter_view_layout xml to view
-    private LayoutInflater mInflater;
+    public  LayoutInflater mInflater;
     private ArrayList<User> users;
     private int mViewResourceid;
+    private SparseBooleanArray mSelectedItemId;
 
 
     public Column_ListAdapter(Context context, int mViewResourceid, ArrayList<User> users) {
@@ -48,7 +50,9 @@ public class Column_ListAdapter extends ArrayAdapter<User> {
             if (medicine_time != null) {
                 medicine_time.setText(user.getTime_txt());
             }
+
         }
         return convertView;
     }
+
 }

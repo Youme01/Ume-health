@@ -9,6 +9,7 @@ public class User {
     private String time_text;
 
     public User(String med_txt,String dose_txt,String food_txt, String time_txt){
+
         this.med_text = med_txt;
         this.dose_text = dose_txt;
         this.food_text = food_txt;
@@ -39,4 +40,5 @@ public class User {
     public String getTime_txt(){
         return time_text;
     }
+
 }

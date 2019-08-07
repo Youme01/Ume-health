@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Constructor
     public DatabaseHelper(Context context) {
-        super(context, TABLE_NAME, null, 10680);
+        super(context, TABLE_NAME, null, 10681);
     }
 
 
@@ -59,6 +59,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
+    public boolean UpdateData(String item1,String item2,String item3,String item4,String item5) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL1, item1);
+        contentValues.put(COL2, item2);
+        contentValues.put(COL3, item3);
+        contentValues.put(COL4, item4);
+        contentValues.put(COL5, item5);
+        db.update(TABLE_NAME, contentValues, "ID=?", new String[]{item1});
+        return true;
+
+    }
 
     public Cursor getData(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -67,4 +80,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
 
     }
+
+    public Integer deleteData(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME,"ID = ?",new String[]{id});
+    }
+
 }

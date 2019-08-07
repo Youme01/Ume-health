@@ -8,17 +8,20 @@
 
     <ScrollView
         android:id="@+id/scrollView3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="395dp"
+        android:layout_height="559dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:fillViewport="false"
         android:orientation="vertical"
         android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.064">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,6 +52,43 @@
 
                 <EditText
                     android:id="@+id/medicinename"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    app:layout_constraintHorizontal_bias="0.236"
+                    app:layout_constraintVertical_bias="0.808" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+
+                <TextView
+                    android:id="@+id/med_id_txt"
+                    android:layout_width="156dp"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:ems="10"
+
+                    android:fontFamily="serif"
+                    android:text="Medicine ID:"
+                    android:textColor="#291B1B"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.236"
+                    app:layout_constraintVertical_bias="0.808" />
+
+                <EditText
+                    android:id="@+id/med_id"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -204,6 +244,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/spinner2"
                     app:layout_constraintVertical_bias="0.0" />
+
                 <Spinner
                     android:id="@+id/spinnerfood"
                     android:layout_width="120dp"
@@ -221,7 +262,6 @@
                     app:layout_constraintVertical_bias="0.0" />
 
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -397,19 +437,43 @@
 
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/buttonRemSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ADD"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.721"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/scrollView3"
+                    app:layout_constraintVertical_bias="0.578" />
+
+
+                <Button
+                    android:id="@+id/del_MED"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delete"
+                    android:textColor="@color/maroon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/new_MED"
+                    app:layout_constraintHorizontal_bias="0.975"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/scrollView3"
+                    app:layout_constraintVertical_bias="0.375" />
+
+            </LinearLayout>
+
 
 
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/buttonRemSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
