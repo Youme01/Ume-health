@@ -3,68 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <item android:id="@+id/ProfileMenu"
-        android:orderInCategory="100"
-        android:title="Profile"
-        android:icon="@drawable/ic_person_black_24dp"
-        >
-
-    </item>
-
-    <item android:id="@+id/dashboardMenu"
         android:orderInCategory="200"
-        android:title="Dashboard"
-        android:icon="@drawable/ic_assessment_black_24dp">
+        android:title="About Us"
+        android:icon="@drawable/ic_question_answer_black_24dp"
+        app:showAsAction="never" />
 
-    </item>
-
-    <item android:id="@+id/MealPlanMenu"
-        android:orderInCategory="300"
-        android:title="Meal Plan"
-        android:icon="@drawable/ic_restaurant_menu_black_24dp">
-
-
-    </item>
-
-    <item android:id="@+id/ReminderMenu"
-        android:orderInCategory="400"
-        android:title="Reminder"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        >
-
-    </item>
-
-    <item android:id="@+id/ActivityMenu"
-        android:orderInCategory="500"
-        android:title="Activity"
-        android:icon="@drawable/ic_trending_up_black_24dp"
-        >
-
-    </item>
-    <item android:id="@+id/BMIMenu"
-        android:orderInCategory="600"
-        android:title="Body Measurements"
-        android:icon="@drawable/ic_fitness_center_black_24dp"
-        >
-
-    </item>
-    <item android:id="@+id/SettingsMenu"
-        android:orderInCategory="700"
-        android:title="Settings"
-        android:icon="@drawable/ic_settings_black_24dp">
-
-    </item>
-
-
-    <item android:id="@+id/logoutMenu"
-        android:orderInCategory="800"
+    <item android:id="@+id/nav_logoutMenu"
+        android:orderInCategory="100"
         android:title="Log Out"
-        android:icon="@drawable/ic_power_settings_new_black_24dp"
-        >
+        android:icon="@drawable/ic_logout"
+        />
 
-    </item>
 
 </menu>

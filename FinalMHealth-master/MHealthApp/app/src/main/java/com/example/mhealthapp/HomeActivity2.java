@@ -70,14 +70,14 @@ public class HomeActivity2 extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
+       /* FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -101,7 +101,6 @@ public class HomeActivity2 extends AppCompatActivity
                 if (dataSnapshot.exists()) {
                     String name = dataSnapshot.child("username").getValue().toString();
                     String email = dataSnapshot.child("useremail").getValue().toString();
-
                     userName.setText(name);
                     userEmail.setText(email);
 
@@ -189,12 +188,15 @@ public class HomeActivity2 extends AppCompatActivity
             ft.commit();
 //            Toast.makeText(HomeActivity2.this, "Profile ", Toast.LENGTH_SHORT).show();
 //            startActivity(new Intent(HomeActivity2.this, ProfileActivity.class));
-        } else if (id == R.id.nav_dashboardMenu) {
-            Toast.makeText(HomeActivity2.this, "Dashboard is clicked ", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_HeartRateMenu) {
+            Toast.makeText(HomeActivity2.this, "Heart Rate is clicked ", Toast.LENGTH_SHORT).show();
 
 
         } else if (id == R.id.nav_ActivityMenu) {
             Toast.makeText(HomeActivity2.this, "ActivityMenu is clicked ", Toast.LENGTH_SHORT).show();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.flMain, new Steps());
+            ft.commit();
 
         } else if (id == R.id.nav_BMIMenu) {
             Toast.makeText(HomeActivity2.this, "BMIMenu is clicked ", Toast.LENGTH_SHORT).show();

@@ -1,7 +1,10 @@
 package com.example.mhealthapp;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,11 +23,18 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
+import com.smarteist.autoimageslider.SliderViewAdapter;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment  extends Fragment   {
+
+    ImageView image;
 
     GridView gridView;
     String[] funcNames = {"Activity", "Heart Rate", "Steps", "Food&\nNutrition", "BMI", "Exercise", "Profile", "Reminders", "Sleep", "Settings", "About Us"};
@@ -46,14 +56,14 @@ public class HomeFragment  extends Fragment   {
         return inflater.inflate(R.layout.fragment_home, container, false);
 
 
-
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
+        image =(ImageView)getView().findViewById(R.id.img);
+        AnimationDrawable animationDrawable = (AnimationDrawable)image.getDrawable();
+        animationDrawable.start();
         gridView = (GridView) getView().findViewById(R.id.allAppGv);
 
         HomeFragment.CustomAdapter customAdpter = new HomeFragment.CustomAdapter();
@@ -61,33 +71,6 @@ public class HomeFragment  extends Fragment   {
         setOnItemclikForGridView();
 
     }
-
-
-
-    public void setOnItemclikForGridView() {
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), gridviewActivity.class);
-                intent.putExtra("name", funcNames[i]);
-                intent.putExtra("image", funcImg[i]);
-                if (funcNames[i] == "Profile") {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.flMain, new ProfileActivityFrag());
-                    ft.commit();                }
-                else if (funcNames[i] == "Reminders") {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.flMain, new ReminderActivityFrag());
-                    ft.commit();
-                }
-
-            }
-
-        });
-    }
-
-
-
     private class CustomAdapter extends BaseAdapter {
 
         @Override
@@ -122,13 +105,44 @@ public class HomeFragment  extends Fragment   {
 
         }
 
-
-
-
-
     }
 
-}
+
+    public void setOnItemclikForGridView() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(), gridviewActivity.class);
+                intent.putExtra("name", funcNames[i]);
+                intent.putExtra("image", funcImg[i]);
+                if (funcNames[i] == "Profile") {
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.flMain, new ProfileActivityFrag());
+                    ft.commit();                }
+                else if (funcNames[i] == "Reminders") {
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.flMain, new ReminderActivityFrag());
+                    ft.commit();
+                }else if(funcNames[i] == "Heart Rate"){
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.flMain, new Heartbeat());
+                    ft.commit();
+
+                }
+
+            }
+
+        });
+    }
+
+
+
+        }
+
+
+
+
+
 
 
 

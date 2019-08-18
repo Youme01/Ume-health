@@ -60,7 +60,7 @@ public class ProfileActivityFrag extends Fragment {
         uHeight = (TextView) getActivity().findViewById(R.id.heightTv);
         uGender = (TextView) getActivity().findViewById(R.id.gendertv);
         uEmail = (TextView) getActivity().findViewById(R.id.proNametv);
-        profile_pic = (ImageView) getActivity().findViewById(R.id.profile_pic);
+        //profile_pic = (ImageView) getActivity().findViewById(R.id.profile_pic);
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
