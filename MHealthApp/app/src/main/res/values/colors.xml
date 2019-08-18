@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#e3e6e5</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="maroon">#9C0D22</color>
+    <color name="white">#FFEAEBF1</color>
+    <color name="colorProfile">#d63838</color>
+
+</resources>
