@@ -3,35 +3,14 @@
 
     <item
         android:duration="4000"
-        android:drawable="@drawable/h1"
-        android:paddingLeft ="0dp"
-        android:paddingRight ="0dp"
-        android:paddingBottom ="0dp"
-        android:paddingTop ="0dp"
-
-        />
+        android:drawable="@drawable/h1"/>
     <item
         android:duration="4000"
-        android:drawable="@drawable/h2"
-        android:paddingLeft ="0dp"
-        android:paddingRight ="0dp"
-        android:paddingBottom ="0dp"
-        android:paddingTop ="0dp"
-        />
+        android:drawable="@drawable/h2" />
     <item
         android:duration="4000"
-        android:drawable="@drawable/hrt1"
-        android:paddingLeft ="0dp"
-        android:paddingRight ="0dp"
-        android:paddingBottom ="0dp"
-        android:paddingTop ="0dp"
-        />
+        android:drawable="@drawable/hrt1"/>
     <item
         android:duration="4000"
-        android:drawable="@drawable/meal"
-        android:paddingLeft ="0dp"
-        android:paddingRight ="0dp"
-        android:paddingBottom ="0dp"
-        android:paddingTop ="0dp"
-        />
+        android:drawable="@drawable/meal"/>
 </animation-list>
