@@ -158,18 +158,18 @@ public class ReminderActivityFrag extends Fragment {
     //Spinner of food : Bf or Af
     public void Spinner_Food(){
         ArrayAdapter<CharSequence> adapter4 =ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.food,
-                android.R.layout.simple_spinner_item);
+                    android.R.layout.simple_spinner_item);
         adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         food.setAdapter(adapter4);
         food.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                food_p = adapterView.getItemAtPosition(i).toString();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    food_p = adapterView.getItemAtPosition(i).toString();
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
+                }
         });
 
     }

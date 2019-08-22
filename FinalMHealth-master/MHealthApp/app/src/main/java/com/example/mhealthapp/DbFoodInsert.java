@@ -11,13 +11,78 @@ public class DbFoodInsert {
     }
     public void setupinsertfood(String data){
 
+        DBAdapter db = new DBAdapter(ctx);
+        db.open();
+        db.insertRecord("food","_id, food_title,food_cal,food_text",data);
+        db.close();
+    }
+
+    public void setupInserttoCategories(String data){
+
 
         DBAdapter db = new DBAdapter(ctx);
         db.open();
-       // db.execSQL("INSERT INTO food (food_id,food_title, food_cal,food_imageA, food_text " + " VALUES (" + data +")" );
-        db.insertRecord("food","food_id, food_title,food_cal,food_text",data);
+        db.insertRecord("categories","_id, category_title,category_parent_id,category_imageA,category_text",data);
         db.close();
     }
+
+    public void insertToAllCategories(){
+
+        setupInserttoCategories("NULL ,'Bread','0','',NULL");
+        setupInserttoCategories("NULL ,'Bread','1','',NULL");
+        setupInserttoCategories("NULL ,'Cereals','1','',NULL");
+        setupInserttoCategories("NULL ,'Frozen Bread and Rolls','1','',NULL");
+        setupInserttoCategories("NULL ,'Crispbread','1','',NULL");
+
+        setupInserttoCategories("NULL ,'Dessert and Baking','0','',NULL");
+        setupInserttoCategories("NULL ,'Baking','6','',NULL");
+        setupInserttoCategories("NULL ,'Biscuit','6','',NULL");
+
+        setupInserttoCategories("NULL ,'Drinks','0','',NULL");
+        setupInserttoCategories("NULL ,'Soda','9','',NULL");
+
+        setupInserttoCategories("NULL ,'Fruits and Vegetables','0','',NULL");
+        setupInserttoCategories("NULL ,'Frozen Fruits and Vegetables','11','',NULL");
+        setupInserttoCategories("NULL ,'Fruit','11','',NULL");
+        setupInserttoCategories("NULL ,'Vegetables','11','',NULL");
+        setupInserttoCategories("NULL ,'Canned Fruits and Vegetables','11','',NULL");
+
+        setupInserttoCategories("NULL ,'Health','0','',NULL");
+        setupInserttoCategories("NULL ,'Meal Subsitutes','16','',NULL");
+        setupInserttoCategories("NULL ,'Protein Powder','16','',NULL");
+        setupInserttoCategories("NULL ,'Protein Bars','16','',NULL");
+
+        setupInserttoCategories("NULL ,'Meat and Fish','0','',NULL");
+        setupInserttoCategories("NULL ,'Chicken','20','',NULL");
+        setupInserttoCategories("NULL ,'Lamb','20','',NULL");
+        setupInserttoCategories("NULL ,'Beef','20','',NULL");
+        setupInserttoCategories("NULL ,'Mutton','20','',NULL");
+        setupInserttoCategories("NULL ,'Sea Food','20','',NULL");
+        setupInserttoCategories("NULL ,'Fishes','20','',NULL");
+
+        setupInserttoCategories("NULL ,'Dairy Products and Eggs','0','',NULL");
+        setupInserttoCategories("NULL ,'Eggs','27','',NULL");
+        setupInserttoCategories("NULL ,'Cream and Sour Cream','27','',NULL");
+        setupInserttoCategories("NULL ,'Yoghurt','27','',NULL");
+        setupInserttoCategories("NULL ,'Cheese','27','',NULL");
+        setupInserttoCategories("NULL ,'Milk','27','',NULL");
+        setupInserttoCategories("NULL ,'Butter','27','',NULL");
+        setupInserttoCategories("NULL ,'Margarine','27','',NULL");
+
+        setupInserttoCategories("NULL ,'Dishes','0','',NULL");
+        setupInserttoCategories("NULL ,'Rice','35','',NULL");
+        setupInserttoCategories("NULL ,'Noodles','35','',NULL");
+        setupInserttoCategories("NULL ,'Pasta','35','',NULL");
+        setupInserttoCategories("NULL ,'Taco','35','',NULL");
+        setupInserttoCategories("NULL ,'Pizza','35','',NULL");
+        setupInserttoCategories("NULL ,'Burger','35','',NULL");
+
+        setupInserttoCategories("NULL ,'Snacks','0','',NULL");
+        setupInserttoCategories("NULL ,'Nuts','42','',NULL");
+        setupInserttoCategories("NULL ,'Potato Chips','42','',NULL");
+
+    }
+
 
     public void insertAllfood(){
 
