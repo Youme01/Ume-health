@@ -1,26 +1,32 @@
 package com.example.mhealthapp;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.provider.AlarmClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TimePicker;
 
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 
 
 /**
@@ -32,12 +38,14 @@ public class ReminderActivityFrag extends Fragment {
 
 
     DatabaseHelper mdDatabaseHelper;
-    EditText medname , medId, mhour1,mmin1 ,mhour2,mmin2, mhour3,mmin3;
-    Button set1,set2,set3, save , delmed;
-    Spinner dose ,food ;
-    String format ,id, food_p, dose_p ,timeset1, timeset2 ,timeset3 ,newEntry;
-    TextView Reminder1,Reminder2,Reminder3;
+    int hour,min;
 
+    EditText medname , medId;
+    Button Time1 , Time2 ,Time3 , save , delmed;
+    Spinner dose , duration, med ,food ;
+    String format ,id, food_p, dose_p , time_p ,timeset1, timeset2 ,timeset3 , med_p , newEntry;
+    TextView Reminder1,Reminder2,Reminder3;
+    Calendar c;
     public ReminderActivityFrag() {
         // Required empty public constructor
     }
@@ -58,85 +66,92 @@ public class ReminderActivityFrag extends Fragment {
         setUpview();
 
         mdDatabaseHelper = new DatabaseHelper(getActivity());
+        c = Calendar.getInstance();
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        min = c.get(Calendar.MINUTE);
+
+        selectTimeFormat(hour);
+        Set_Time1();
+        Set_Time2();
+        Set_Time3();
+
         Spinner_Dose();
         Spinner_Food();
-
-        setAlarm1();
-        setAlarm2();
-        setAlarm3();
-
         SaveMed();
         DeleteMed();
     }
 
-    //Morning Alarm
-    public void setAlarm1(){
-        set1.setOnClickListener(new View.OnClickListener() {
+    //Morning Time
+    public void Set_Time1(){
+        Time1.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                int hr = Integer.parseInt(mhour1.getText().toString());
-                int mi = Integer.parseInt(mmin1.getText().toString());
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                                Reminder1= (TextView)getActivity().findViewById(R.id.Txttime1);
+                                Reminder1.setText(i + ":" + i1 + " " + format);
+                                timeset1 = Reminder1.getText().toString();
+                                c.set(Calendar.HOUR_OF_DAY, i);
+                                c.set(Calendar.MINUTE, i1);
+                                c.set(Calendar.SECOND, 0);
+                                startAlarm(c);
+                            }
+                        },hour,min,true);
+                timePickerDialog.show();
+            }
+        });
 
-                Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
-                intent.putExtra(AlarmClock.EXTRA_HOUR,hr);
-                intent.putExtra(AlarmClock.EXTRA_MINUTES,mi);
-                intent.putExtra(AlarmClock.EXTRA_MESSAGE,"Time to take medicine");
-                if(hr <= 24 && mi <= 60){
-                    startActivity(intent);
-                }
-                selectTimeFormat(hr);
-                Reminder1.setText(hr + ":" + mi + format);
-                timeset1 = Reminder1.getText().toString();
+    }
+    //Afternoon Time
+    public void Set_Time2(){
+        Time2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                        Reminder2 = (TextView)getActivity().findViewById(R.id.Txttime2);
+                        Reminder2.setText(i + ":" + i1 + " " + format);
+                        timeset2 = Reminder2.getText().toString();
+                        c.set(Calendar.HOUR_OF_DAY, i);
+                        c.set(Calendar.MINUTE, i1);
+                        c.set(Calendar.SECOND, 0);
+                        startAlarm(c);
+                    }
+                },hour,min,true);
+                timePickerDialog.show();
+            }
+        });
+
+    }
+
+    //Dinner Time
+    public void Set_Time3(){
+        Time3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                                Reminder3 = (TextView)getActivity().findViewById(R.id.Txttime3);
+                                Reminder3.setText(i + ":" + i1 + " " + format);
+                                timeset3 = Reminder3.getText().toString();
+                                c.set(Calendar.HOUR_OF_DAY, i);
+                                c.set(Calendar.MINUTE, i1);
+                                c.set(Calendar.SECOND, 0);
+                                startAlarm(c);
+                            }
+                        },hour,min,true);
+                timePickerDialog.show();
             }
         });
     }
 
-    //Afternoon alarm
-    public void setAlarm2(){
-        set2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int hr = Integer.parseInt(mhour2.getText().toString());
-                int mi = Integer.parseInt(mmin2.getText().toString());
 
-                Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
-                intent.putExtra(AlarmClock.EXTRA_HOUR,hr);
-                intent.putExtra(AlarmClock.EXTRA_MINUTES,mi);
-                intent.putExtra(AlarmClock.EXTRA_MESSAGE,"Time to take medicine");
-                if(hr <= 24 && mi <= 60){
-                    startActivity(intent);
-                }
-                selectTimeFormat(hr);
-                Reminder2.setText(hr + ":" + mi + format);
-                timeset2 = Reminder2.getText().toString();
-
-            }
-        });
-    }
-
-    //Night Alarm
-    public void setAlarm3(){
-        set3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int hr3 = Integer.parseInt(mhour3.getText().toString());
-                int mi3 = Integer.parseInt(mmin3.getText().toString());
-
-                Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
-                intent.putExtra(AlarmClock.EXTRA_HOUR,hr3);
-                intent.putExtra(AlarmClock.EXTRA_MINUTES,mi3);
-                intent.putExtra(AlarmClock.EXTRA_MESSAGE,"Time to take medicine");
-
-                if(hr3 <= 24 && mi3 <= 60){
-                    startActivity(intent);
-                }
-                selectTimeFormat(hr3);
-                Reminder3.setText(hr3 + ":" + mi3 + format);
-                timeset3 = Reminder3.getText().toString();
-
-            }
-        });
-    }
     //Spinner of dose : Half/full/quarter medicines
     public void Spinner_Dose(){
         ArrayAdapter<CharSequence> adapter =ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.dose,
@@ -155,21 +170,41 @@ public class ReminderActivityFrag extends Fragment {
         });
     }
 
+
+
+    //Spinner of medicine category
+    public void Spinner_Med_Category(){
+        ArrayAdapter<CharSequence> adapter3 =ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.med,
+                android.R.layout.simple_spinner_item);
+        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        med.setAdapter(adapter3);
+        med.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                med_p = adapterView.getItemAtPosition(i).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
     //Spinner of food : Bf or Af
     public void Spinner_Food(){
         ArrayAdapter<CharSequence> adapter4 =ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.food,
-                    android.R.layout.simple_spinner_item);
+                android.R.layout.simple_spinner_item);
         adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         food.setAdapter(adapter4);
         food.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    food_p = adapterView.getItemAtPosition(i).toString();
-                }
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                food_p = adapterView.getItemAtPosition(i).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-                }
+            }
         });
 
     }
@@ -181,6 +216,8 @@ public class ReminderActivityFrag extends Fragment {
             public void onClick(View view) {
 
                 newEntry = medname.getText().toString();
+
+
                 if (medname.length()!= 0){
                     AddData(newEntry,dose_p,food_p,timeset1,timeset2,timeset3);
                     medname.setText(" ");
@@ -213,6 +250,18 @@ public class ReminderActivityFrag extends Fragment {
             }
         });
 
+    }
+
+    //Alarm is initiated here
+    public void startAlarm(Calendar c){
+        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, 0);
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(),pendingIntent);
+        Toast.makeText(getActivity(), "Done!", Toast.LENGTH_SHORT).show();
     }
 
     //Time Format
@@ -256,21 +305,11 @@ public class ReminderActivityFrag extends Fragment {
         medname = (EditText)getActivity().findViewById(R.id.medicinename);
         dose = (Spinner) getActivity().findViewById(R.id.spinnerDose);
         save = (Button)getActivity().findViewById(R.id.buttonRemSubmit);
-        set1 = (Button)getActivity().findViewById(R.id.set1);
-        set2 = (Button)getActivity().findViewById(R.id.set2);
-        set3 = (Button)getActivity().findViewById(R.id.set3);
-        mhour1 = (EditText)getActivity().findViewById(R.id.hr1);
-        mmin1 = (EditText)getActivity().findViewById(R.id.mi1);
-        mhour2 = (EditText)getActivity().findViewById(R.id.hr2);
-        mmin2 = (EditText)getActivity().findViewById(R.id.mi2);
-        mhour3 = (EditText)getActivity().findViewById(R.id.hr3);
-        mmin3 = (EditText)getActivity().findViewById(R.id.mi3);
+        Time1 = (Button)getActivity().findViewById(R.id.set1);
+        Time2 = (Button)getActivity().findViewById(R.id.set2);
+        Time3 = (Button)getActivity().findViewById(R.id.set3);
         food = (Spinner)getActivity().findViewById(R.id.spinnerfood);
         delmed = (Button) getActivity().findViewById(R.id.del_MED);
         medId = (EditText)getActivity().findViewById(R.id.med_id);
-        Reminder1 = (TextView)getActivity().findViewById(R.id.Txttime1);
-        Reminder2 = (TextView) getActivity().findViewById(R.id.Txttime2);
-        Reminder3 = (TextView) getActivity().findViewById(R.id.Txttime3);
-
     }
 }

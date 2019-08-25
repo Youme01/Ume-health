@@ -16,6 +16,11 @@
     <string name="menu_send">Send</string>
     <string name="button">Button</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="YES">Yes</string>
+    <string name="NO">No</string>
+
+    <string name="MALE">Male</string>
+    <string name="FEMALE">Female</string>
 
     <string name="title_activity_days">DaysActivity</string>
     <string-array name="dose">
@@ -53,6 +58,10 @@
     <string name="delete">Delete</string>
     <string name="done">Done</string>
 
+    <string-array name="g_p">
+        <item>gram</item>
+        <item>pcs</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

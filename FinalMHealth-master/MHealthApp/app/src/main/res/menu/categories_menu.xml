@@ -8,14 +8,4 @@
         app:showAsAction="ifRoom"
         android:title="@string/add" />
 
-    <item android:id="@+id/action_del"
-        android:title="@string/delete"
-        android:orderInCategory="200"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_menu_action_delete" />
-    
-
-
-
-
 </menu>

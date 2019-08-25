@@ -1,277 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileActivityFrag">
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <LinearLayout
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/custom_background"
-           >
-            <LinearLayout
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/header_cover_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                >
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/coverpic" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile_image"
-                    android:layout_width="150px"
-                    android:layout_height="150px"
-                    android:src="@drawable/profile"
-                    app:civ_border_width="2dp"
-                    android:layout_marginTop="100px"
-                    app:civ_border_color="#FF000000"/>
+            <ImageButton
+                android:id="@+id/user_profile_photo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_below="@+id/header_cover_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-88dp"
+                android:background="@drawable/user_profile_image_background"
+                android:elevation="5dp"
+                android:padding="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile" />
+
+            <RelativeLayout
+                android:id="@+id/profile_layout"
+                android:layout_width="370dp"
+                android:layout_height="175dp"
+                android:layout_below="@+id/header_cover_image"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-26dp"
+                android:layout_marginEnd="18dp"
+                android:background="#29BADD"
+                android:elevation="4dp"
+                android:paddingBottom="24dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+
+                <ImageView
+                    android:id="@+id/EditproBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="18dp"
+                    android:src="@drawable/ic_edit_black"
+                    />
+
+
                 <TextView
-
-                    android:id="@+id/userNametv"
+                    android:id="@+id/user_profile_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="User Name"
-                    android:fontFamily="serif"
-                    android:layout_marginBottom="100px"
-                    android:textAlignment="center"
-                    android:textColor="#ffffff"
-                    android:textStyle="bold|italic"
-                    android:textSize="22dp" />
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="76dp"
+                    android:text="Name"
+                    android:textColor="#fff"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/user_profile_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_profile_name"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="91dp"
+                    android:text="A app cannot replace a doctor"
+                    android:textColor="#fff"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_layout"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/emailTVpro"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="Your Email" />
                 </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="50px"
-                android:paddingTop="20px"
-                android:paddingBottom="20px"
-                android:gravity="center"
-                android:background="@drawable/secondlayer_profile"
-                >
 
                 <LinearLayout
-                    android:layout_width="100dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_marginRight="20dp">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <TextView
-                        android:id="@+id/gendertv_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sex"
-                        android:textColor="#183FBB"
-                        android:textSize="20sp"
-                        android:fontFamily="serif"
-                        />
+                        android:id="@+id/dobTvpro"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:gravity="center"
+
+                        android:padding="20dp"
+                        android:text="Date Of Birth" />
 
                     <TextView
-                        android:id="@+id/gendertv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Female"
-                        android:textColor="#ffffff"
-                        android:textSize="18sp"
-                        android:fontFamily="serif"
-                        />
+                        android:id="@+id/ageTVpro"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:elevation="4dp"
+                        android:padding="20dp"
+                        android:text="Current Age" />
+
+
                 </LinearLayout>
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20px"
-                    android:layout_marginRight="20px"
-                    android:background="#183FBB">
-                </View>
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <TextView
-                        android:id="@+id/bloodgrouptv_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Blood Group"
-                        android:textColor="#183FBB"
-                        android:textSize="20sp"
-                        android:fontFamily="serif"
-                        />
+                        android:id="@+id/heightTVpro"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="Height" />
 
                     <TextView
-                        android:id="@+id/bloodgroup_tv"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/weightTVpro"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="Weight" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/bloodgrpTVpro"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="AB+"
-                        android:textColor="#ffffff"
-                        android:textSize="18sp"
-                        android:fontFamily="serif"
-                        />
+                        android:layout_margin="5dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_weight="1"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="Blood group" />
+
+                    <TextView
+                        android:id="@+id/genderTVpro"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="Gender" />
+
+
                 </LinearLayout>
 
 
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="50px"
-            android:orientation="vertical"
-            android:layout_marginLeft ="100px">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/email-txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Email"
-                    android:textColor="#183FBB"
-                    android:textSize="18sp"
-                    android:textStyle="italic"
-                    android:fontFamily="serif"
-                    />
-
-                <TextView
-                    android:id="@+id/proNametv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="email@gmail.com"
-                    android:textColor="#3661EB"
-                    android:textSize="18sp"
-                    android:fontFamily="serif"
-                    />
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="10px"
-                android:layout_marginBottom="20px"
-                android:layout_marginRight="10px"
-                android:background="#E5D5D9">
-            </View>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+        </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/age-txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Age"
-                    android:textColor="#183FBB"
-                    android:textSize="18sp"
-                    android:textStyle="italic"
-                    android:fontFamily="serif"
-                    />
-
-                <TextView
-                    android:id="@+id/ageTv"
-                    android:layout_width="68dp"
-                    android:layout_height="28dp"
-                    android:text="Age:"
-                    android:textColor="#3661EB"
-                    android:textSize="18sp"
-                    android:fontFamily="serif"
-                    />
-
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="10px"
-                android:layout_marginBottom="20px"
-                android:layout_marginRight="10px"
-                android:background="#E5D5D9">
-            </View>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/weight-txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Weight"
-                    android:textColor="#183FBB"
-                    android:textSize="18sp"
-                    android:textStyle="italic"
-                    android:fontFamily="serif"
-                    />
-
-                <TextView
-                    android:id="@+id/weightTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Weight:"
-                    android:textColor="#3661EB"
-                    android:textSize="18sp"
-                    android:fontFamily="serif"
-                    />
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="10px"
-                android:layout_marginBottom="20px"
-                android:layout_marginRight="10px"
-                android:background="#E5D5D9">
-            </View>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/height-txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Height"
-                    android:textColor="#183FBB"
-                    android:textSize="18sp"
-                    android:textStyle="italic"
-                    android:fontFamily="serif"
-                    />
-
-                <TextView
-                    android:id="@+id/heightTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Height:"
-                    android:textColor="#3661EB"
-                    android:textSize="18sp"
-                    android:fontFamily="serif"
-                    />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
 
 
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

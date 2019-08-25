@@ -2,29 +2,47 @@ package com.example.mhealthapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 
-public class RegistrationActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private Button signupR, loginR;
-    FirebaseAuth firebaseAuth;
-    private EditText usernameR, passwordR, emailR, passwordR2, age, height, weight, gender;
-    String name, email, userageV, userweightV, pass, pass2, userheightV, usergenderV;
+    private Button submit;
+    private FirebaseAuth firebaseAuth;
+    private EditText nickName, age, height, weight, bloodgroup, DOB, other;
+    private RadioGroup gender, heartdiseas, diabatic, bloodprs, pregnant;
+    private RadioButton genderBtn, heartDiseaseBtn, diabaticBtn, bloodprsrBtn, pregnantBtn;
+    String name, email, userageV, userweightV, userheightV, usergenderV, userDOB, userDiabatic, userBloodprsr, userHeartdisease, userPregnant, userOther, userBloodgrp;
 
 
     @Override
@@ -33,52 +51,91 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         setupViews();
 
-        signupR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validate()) {
-                    firebaseAuth = FirebaseAuth.getInstance();
-
-                    String userEmail = emailR.getText().toString().trim();
-                    String userPass = passwordR.getText().toString().trim();
+    }
 
 
-                    firebaseAuth.createUserWithEmailAndPassword(userEmail, userPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+    public void SubmitTodatabase(View view) {
 
-                            if (task.isSuccessful()) {
-                                sendemailverification();
-                            } else {
-                                task.getException().printStackTrace();
-                                Toast.makeText(RegistrationActivity.this, "Registration Failed !!", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                }
-            }
+        if (validate()) {
+            firebaseAuth = FirebaseAuth.getInstance();
+           // sendemailverification();
+            sendUserdata();
+            Toast.makeText(RegistrationActivity.this, "Success fully entered the data", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(RegistrationActivity.this, HomeActivity2.class));
 
 
-        });
+        } else {
 
-        loginR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
-            }
-        });
+            Toast.makeText(RegistrationActivity.this, "send Data Error", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
 
+
     private void sendUserdata() {
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference myref = firebaseDatabase.getReference(firebaseAuth.getUid());
 
-        UserProfile userProfile = new UserProfile(name, email, userageV, userheightV, userweightV, usergenderV);
+      //  FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        //DatabaseReference myref = firebaseDatabase.getReference(firebaseAuth.getUid());
 
-        myref.setValue(userProfile);
+       String userId = firebaseAuth.getCurrentUser().getUid();
+       DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+//        UserProfile userProfile = new UserProfile(name, userageV, userweightV, userheightV, usergenderV, userDOB, userDiabatic, userBloodprsr, userHeartdisease, userPregnant, userOther, userBloodgrp);
+        int selectedId1 = gender.getCheckedRadioButtonId();
+        genderBtn = (RadioButton) findViewById(selectedId1);
+
+        int selectedId2 = heartdiseas.getCheckedRadioButtonId();
+        heartDiseaseBtn = (RadioButton) findViewById(selectedId2);
+
+        int selectedId3 = diabatic.getCheckedRadioButtonId();
+        diabaticBtn = (RadioButton) findViewById(selectedId3);
+
+        int selectedId4 = bloodprs.getCheckedRadioButtonId();
+        bloodprsrBtn = (RadioButton) findViewById(selectedId4);
+
+        int selectedId5 = pregnant.getCheckedRadioButtonId();
+        pregnantBtn = (RadioButton) findViewById(selectedId5);
+
+
+      name = nickName.getText().toString();
+        userageV = age.getText().toString();
+        usergenderV = genderBtn.getText().toString();
+        userheightV = height.getText().toString();
+        userweightV = weight.getText().toString();
+        userDiabatic = diabaticBtn.getText().toString();
+
+        userBloodprsr = bloodprsrBtn.getText().toString();
+
+        userHeartdisease = heartDiseaseBtn.getText().toString();
+
+        userPregnant = pregnantBtn.getText().toString();
+
+        userOther = other.getText().toString();
+        userBloodgrp = bloodgroup.getText().toString();
+        userDOB = DOB.getText().toString();
+
+       Map newPost = new HashMap();
+        newPost.put("Name",name);
+        newPost.put("Age",userageV);
+        newPost.put("DOB",userDOB);
+        newPost.put("Gender",usergenderV);
+        newPost.put("Weight",userweightV);
+        newPost.put("Height",userheightV);
+        newPost.put("Other",userOther);
+        newPost.put("Diabetes",userDiabatic);
+        newPost.put("Blood Pressure",userBloodprsr);
+        newPost.put("Blood Group",userBloodgrp);
+        newPost.put("Pregnant",userPregnant);
+        newPost.put("Heart Disease",userHeartdisease);
+
+        current_user_db.setValue(newPost);
+
+        /*UserProfile userProfile = new UserProfile(name,userageV,userDOB,
+                usergenderV, userweightV, userheightV,userOther,userDiabatic,
+                userBloodprsr,userBloodgrp,userPregnant,userHeartdisease);
+
+        myref.setValue(userProfile);*/
 
 
     }
@@ -87,10 +144,7 @@ public class RegistrationActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         if (firebaseUser != null) {
-            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
+
                         sendUserdata();
                         Toast.makeText(RegistrationActivity.this, "Registration Successful! Verification email has been sent", Toast.LENGTH_LONG).show();
                         firebaseAuth.signOut();
@@ -100,48 +154,97 @@ public class RegistrationActivity extends AppCompatActivity {
                         Toast.makeText(RegistrationActivity.this, "Verification email is not sent", Toast.LENGTH_LONG).show();
 
                     }
-                }
-            });
         }
-    }
+
+
+
 
     public Boolean validate() {
 
         Boolean res = false;
 
-        name = usernameR.getText().toString();
-        pass = passwordR.getText().toString();
-        email = emailR.getText().toString();
-        pass2 = passwordR2.getText().toString();
+        int selectedId1 = gender.getCheckedRadioButtonId();
+        genderBtn = (RadioButton) findViewById(selectedId1);
+
+        int selectedId2 = heartdiseas.getCheckedRadioButtonId();
+        heartDiseaseBtn = (RadioButton) findViewById(selectedId2);
+
+        int selectedId3 = diabatic.getCheckedRadioButtonId();
+        diabaticBtn = (RadioButton) findViewById(selectedId3);
+
+        int selectedId4 = bloodprs.getCheckedRadioButtonId();
+        bloodprsrBtn = (RadioButton) findViewById(selectedId4);
+
+        int selectedId5 = pregnant.getCheckedRadioButtonId();
+        pregnantBtn = (RadioButton) findViewById(selectedId5);
+
+
+        name = nickName.getText().toString();
         userageV = age.getText().toString();
-        usergenderV = gender.getText().toString();
+        usergenderV = genderBtn.getText().toString();
         userheightV = height.getText().toString();
         userweightV = weight.getText().toString();
+        userDiabatic = diabaticBtn.getText().toString();
 
-        if (name.isEmpty() || pass2.isEmpty() || userageV.isEmpty() || userweightV.isEmpty() || userheightV.isEmpty() || usergenderV.isEmpty() || pass.isEmpty() || email.isEmpty()) {
+        userBloodprsr = bloodprsrBtn.getText().toString();
+
+        userHeartdisease = heartDiseaseBtn.getText().toString();
+
+        userPregnant = pregnantBtn.getText().toString();
+
+        userOther = other.getText().toString();
+        userBloodgrp = bloodgroup.getText().toString();
+        userDOB = DOB.getText().toString();
+
+        if (name.isEmpty() || userBloodgrp.isEmpty() || userageV.isEmpty() || userweightV.isEmpty() || userheightV.isEmpty() || usergenderV.isEmpty() || userDOB.isEmpty() || userOther.isEmpty()) {
             Toast.makeText(this, "Please Enter All The Details!", Toast.LENGTH_LONG).show();
-        } else if (pass.compareTo(pass2) != 0) {
-            Toast.makeText(this, "Password doesn't match . Try Again!", Toast.LENGTH_LONG).show();
+            res = false;
         } else {
             res = true;
         }
+
         return res;
 
     }
 
 
     private void setupViews() {
-        usernameR = (EditText) findViewById(R.id.usernameR);
-        passwordR = (EditText) findViewById(R.id.passR);
-        passwordR2 = (EditText) findViewById(R.id.passR2);
-        emailR = (EditText) findViewById(R.id.email);
-        signupR = (Button) findViewById(R.id.signupR);
-        loginR = (Button) findViewById(R.id.loginR);
-        age = (EditText) findViewById(R.id.age);
-        weight = (EditText) findViewById(R.id.weight);
-        height = (EditText) findViewById(R.id.height);
-        gender = (EditText) findViewById(R.id.gender);
+        nickName = (EditText) findViewById(R.id.nickNameET);
+        submit = (Button) findViewById(R.id.submitBtn);
+        age = (EditText) findViewById(R.id.AgeET);
+        weight = (EditText) findViewById(R.id.WeightET);
+        height = (EditText) findViewById(R.id.heightET);
+
+        bloodgroup = (EditText) findViewById(R.id.bloodGroupET);
+        other = (EditText) findViewById(R.id.othersET);
+        gender = (RadioGroup) findViewById(R.id.genderRG);
+        heartdiseas = (RadioGroup) findViewById(R.id.HeartDiseaseRG);
+        diabatic = (RadioGroup) findViewById(R.id.diabaticRG);
+        bloodprs = (RadioGroup) findViewById(R.id.BloodPressureRG);
+        pregnant = (RadioGroup) findViewById(R.id.PragnantRG);
+
+        DOB = (EditText) findViewById(R.id.DOBET);
+        DOB.setFocusable(false);
+        DOB.setKeyListener(null);
+        DOB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datepicker = new DatePickerFragment();
+                datepicker.show(getSupportFragmentManager(), "date picker");
+            }
+        });
 
 
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        String currentDateString = DateFormat.getDateInstance().format(c.getTime());
+        DOB = (EditText) findViewById(R.id.DOBET);
+        DOB.setText(currentDateString);
     }
 }

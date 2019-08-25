@@ -15,7 +15,7 @@ public class DBAdapter {
     // Database and table names
     private static final String databaseName           = "Food_Table";
     private static final String databaseTableNotes     = "Food";
-    private static final int databaseVersion           = 16970;
+    private static final int databaseVersion           = 20000;
 
     // Database variables
     private final Context context;
@@ -46,12 +46,42 @@ public class DBAdapter {
         public void onCreate(SQLiteDatabase db)
         {
             try {
-                db.execSQL("CREATE TABLE IF NOT EXISTS food_diary "  +
+                db.execSQL("CREATE TABLE IF NOT EXISTS food_diary_Breakfast "  +
                         "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         " fd_id INT, " +
                         " fd_date DATE, " +
                         " food_title VARCHAR, " +
-                        " fd_meal_number INT);");
+                        " food_measurement DOUBLE, " +
+                        " food_unit VARCHAR, " +
+                        " fd_meal_number INT, " +
+                        " fd_cal DOUBLE);");
+                db.execSQL("CREATE TABLE IF NOT EXISTS food_diary_Lunch "  +
+                        "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        " fd_id INT, " +
+                        " fd_date DATE, " +
+                        " food_title VARCHAR, " +
+                        " food_measurement DOUBLE, " +
+                        " food_unit VARCHAR, " +
+                        " fd_meal_number INT, " +
+                        " fd_cal DOUBLE);");
+                db.execSQL("CREATE TABLE IF NOT EXISTS food_diary_Snacks "  +
+                        "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        " fd_id INT, " +
+                        " fd_date DATE, " +
+                        " food_title VARCHAR, " +
+                        " food_measurement DOUBLE, " +
+                        " food_unit VARCHAR, " +
+                        " fd_meal_number INT, " +
+                        " fd_cal DOUBLE);");
+                db.execSQL("CREATE TABLE IF NOT EXISTS food_diary_Dinner"  +
+                        "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        " fd_id INT, " +
+                        " fd_date DATE, " +
+                        " food_title VARCHAR, " +
+                        " food_measurement DOUBLE, " +
+                        " food_unit VARCHAR, " +
+                        " fd_meal_number INT, " +
+                        " fd_cal DOUBLE);");
                 db.execSQL("CREATE TABLE IF NOT EXISTS categories "  +
                         "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         " category_id INT , " +
@@ -68,7 +98,10 @@ public class DBAdapter {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-            db.execSQL("DROP TABLE IF EXISTS food_diary");
+            db.execSQL("DROP TABLE IF EXISTS food_diary_Breakfast");
+            db.execSQL("DROP TABLE IF EXISTS food_diary_Lunch");
+            db.execSQL("DROP TABLE IF EXISTS food_diary_Snacks");
+            db.execSQL("DROP TABLE IF EXISTS food_diary_Dinner");
             db.execSQL("DROP TABLE IF EXISTS categories");
             db.execSQL("DROP TABLE IF EXISTS " + databaseTableNotes);
             onCreate(db);
@@ -93,7 +126,7 @@ public class DBAdapter {
 
 
     // Insert record
-     public void insertRecord(String table, String fields ,String data)
+    public void insertRecord(String table, String fields ,String data)
     {
         db.execSQL("INSERT INTO " + table + "(" + fields + ") VALUES (" + data +")" );
 
@@ -159,6 +192,28 @@ public class DBAdapter {
         }
         return mCursor;
     }
+
+    public Cursor select(String table, String[] fields, String[] whereClause, String[] whereCondition, String[] whereAndOr) throws SQLException
+    {
+        String where = "";
+        int arraySize = whereClause.length;
+        for(int x=0;x<arraySize;x++) {
+            if(where.equals("")) {
+                where = whereClause[x] + "=" + whereCondition[x];
+            }
+            else{
+                where = where + " " + whereAndOr[x-1] + " " + whereClause[x] + "=" + whereCondition[x];
+            }
+        }
+        //Toast.makeText(context, where, Toast.LENGTH_SHORT).show();
+
+        Cursor mCursor = db.query(table, fields, where, null, null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
     public String quoteSmart(String value){
         // Is numeric?
         boolean isNumeric = false;
@@ -217,6 +272,25 @@ public class DBAdapter {
         args.put(field, value);
         return db.update(table, args, primaryKey + "=" + rowId, null) > 0;
     }
+
+    public boolean update(String table, String primaryKey, long rowID, String fields[], String values[]) throws SQLException {
+
+
+        ContentValues args = new ContentValues();
+        int arraySize = fields.length;
+        for(int x=0;x<arraySize;x++){
+            // Remove first and last value of value
+            values[x] = values[x].substring(1, values[x].length()-1); // removes apostrophe after running quote smart
+
+            // Put
+            args.put(fields[x], values[x]);
+
+            // Toast.makeText(context, fields[x].toString() + "=" + values[x].toString(), Toast.LENGTH_SHORT).show();
+        }
+
+        return db.update(table, args, primaryKey + "=" + rowID, null) > 0;
+    }
+
 
     /* 12 Delete ----------------------------------------------------------------- */
     // Delete a particular record

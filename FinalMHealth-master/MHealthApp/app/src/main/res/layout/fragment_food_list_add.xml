@@ -13,20 +13,16 @@
         android:layout_marginRight="24dp"
         android:layout_marginLeft="24dp">
 
-
-
-        <!-- General Table -->
-        <TextView
-            android:id="@+id/textViewEditGeneral"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="General"
-            android:textSize="18sp" />
+            android:layout_height="250dp"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/meal" />
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
 
             <!-- Headline -->
             <TableRow
@@ -63,10 +59,11 @@
 
                 <TextView
                     android:id="@+id/textViewViewFoodDescription"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
-                    android:text="Description" />
+                    android:text="Description"
+                    />
 
                 <EditText
                     android:id="@+id/editTextEditFoodDescription"
@@ -153,10 +150,11 @@
 
                 <TextView
                     android:id="@+id/textViewViewFoodBlankPerHundred"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6dp"
-                    android:text="Calories" />
+                    android:text="Calories"
+                    android:paddingRight="18dp"/>
 
                 <EditText
                     android:id="@+id/food_cal_Tv"
@@ -164,7 +162,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6dp"
                     android:hint="Enter Food Calories (in Kcal)"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textSize="16sp"/>
             </TableRow>
 
         </TableLayout>
@@ -173,9 +172,11 @@
 
         <Button
             android:id="@+id/buttonEditFood"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save" />
+            android:text="Save"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/custom_button"/>
 
 
     </LinearLayout>

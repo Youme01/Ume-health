@@ -132,6 +132,11 @@ public class HomeFragment  extends Fragment   {
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.flMain, new NutritionFragment());
                     ft.commit();
+                }else if(funcNames[i]=="Steps"){
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.flMain, new StepsWithApiFrag());
+                    ft.commit();
+
                 }
 
             }

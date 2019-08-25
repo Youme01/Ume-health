@@ -17,8 +17,6 @@ public class gridviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gridview);
 
-
-
         name = findViewById(R.id.txtViewGD);
         img = findViewById(R.id.imgViewGD);
 

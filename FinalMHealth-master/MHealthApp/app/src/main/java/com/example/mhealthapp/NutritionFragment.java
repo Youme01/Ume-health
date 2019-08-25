@@ -16,7 +16,7 @@ import okhttp3.OkHttpClient;
 
 public class NutritionFragment extends Fragment {
 
-    Button btnC , btnF;
+    Button btnC , btnF ,btnD;
 
 
     @Override
@@ -31,9 +31,9 @@ public class NutritionFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        btnC = (Button)getActivity().findViewById(R.id.cat);
+       // btnC = (Button)getActivity().findViewById(R.id.cat);
         btnF = (Button)getActivity().findViewById(R.id.food);
-
+        btnD = (Button)getActivity().findViewById(R.id.food_D);
         Stetho.initializeWithDefaults(getContext());
 
         new OkHttpClient.Builder()
@@ -50,20 +50,20 @@ public class NutritionFragment extends Fragment {
             dbFoodInsert.insertAllfood();
 
         }
-        btnC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new CategoriesFragment());
-                ft.commit();
-            }
-        });
 
         btnF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.flMain, new FoodFragment());
+                ft.commit();
+            }
+        });
+        btnD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flMain, new Food_diary());
                 ft.commit();
             }
         });

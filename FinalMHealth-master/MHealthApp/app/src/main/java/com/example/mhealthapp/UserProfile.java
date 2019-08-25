@@ -1,22 +1,25 @@
 package com.example.mhealthapp;
 
 public class UserProfile {
+   public String name, userageV, userweightV, userheightV,
+            usergenderV , userDOB,userDiabatic,userBloodprsr,
+            userHeartdisease,userPregnant,userOther, userBloodgrp;
 
-    public String username;
-    public String useremail;
-    public String userage;
-    public String userheight;
-    public String userweight;
-    public String usergender;
-
-    public UserProfile(String username, String useremail, String userage, String userheight, String userweight, String usergender) {
-        this.userage = userage;
-        this.useremail = useremail;
-        this.username = username;
-        this.userheight = userheight;
-        this.userweight = userweight;
-        this.usergender = usergender;
+    public UserProfile(String name, String userageV, String userweightV, String userheightV, String usergenderV, String userDOB, String userDiabatic, String userBloodprsr, String userHeartdisease, String userPregnant, String userOther, String userBloodgrp) {
+        this.name = name;
+        this.userageV = userageV;
+        this.userweightV = userweightV;
+        this.userheightV = userheightV;
+        this.usergenderV = usergenderV;
+        this.userDOB = userDOB;
+        this.userDiabatic = userDiabatic;
+        this.userBloodprsr = userBloodprsr;
+        this.userHeartdisease = userHeartdisease;
+        this.userPregnant = userPregnant;
+        this.userOther = userOther;
+        this.userBloodgrp = userBloodgrp;
     }
+
 
 
 }
