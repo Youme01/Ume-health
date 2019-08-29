@@ -31,8 +31,6 @@ public class FoodFragmentL extends Fragment {
 
     private String pcs_gram;
     Spinner food_size;
-
-    private MenuItem menuItemDelete;
     private String currentMealNumber;
 
     // Holder for buttons on toolbar
@@ -63,12 +61,6 @@ public class FoodFragmentL extends Fragment {
     }
 
     public boolean onOptionsItemSelected(MenuItem menuItem){
-
-        int id = menuItem.getItemId();
-
-        if(id == R.id.action_plus){
-            addFood();
-        }
 
         return super.onOptionsItemSelected(menuItem);
 
@@ -124,10 +116,6 @@ public class FoodFragmentL extends Fragment {
         // Change title
         ((HomeActivity2)getActivity()).getSupportActionBar().setTitle(currentName);
 
-
-        /*  Get data from database */
-
-        // Database
         DBAdapter db = new DBAdapter(getActivity());
         db.open();
 
@@ -342,137 +330,6 @@ public class FoodFragmentL extends Fragment {
         // Close db
         db.close();
     }
-
-
-
-
-
-    public void addFood(){
-        /* Database */
-        DBAdapter db = new DBAdapter(getActivity());
-        db.open();
-
-        /* Change layout */
-        int id = R.layout.fragment_food_list_add;
-        setMenuView(id);
-
-        // Change title
-        ((HomeActivity2)getActivity()).getSupportActionBar().setTitle("Add food");
-
-        /* Main category */
-        String spinnerFields[] = new String[] {
-                "_id",
-                "category_title",
-                "category_parent_id"
-        };
-        Cursor dbCursorMain = db.select("categories", spinnerFields, "category_parent_id",
-                "0", "category_title", "ASC");
-
-        // Creating array
-        int dbCursorCount = dbCursorMain.getCount();
-        String[] arraySpinnerMainCategories = new String[dbCursorCount];
-
-        // Convert Cursor to String
-        for(int x=0;x<dbCursorCount;x++){
-            arraySpinnerMainCategories[x] = dbCursorMain.getString(1).toString();
-            dbCursorMain.moveToNext();
-        }
-
-        /* SubmitButton listener */
-        Button buttonEditFood = (Button)getActivity().findViewById(R.id.buttonEditFood);
-        buttonEditFood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buttonAddFoodSubmitOnClick();
-            }
-        });
-
-
-        /* Close db */
-        db.close();
-    } // addFood
-
-    public void buttonAddFoodSubmitOnClick(){
-        /* Database */
-        DBAdapter db = new DBAdapter(getActivity());
-        db.open();
-
-        // Error?
-        int error = 0;
-
-        /* General */
-
-        // Name
-        EditText editTextEditFoodName = (EditText)getActivity().findViewById(R.id.editTextEditFoodName);
-        String stringName = editTextEditFoodName.getText().toString();
-        String stringNameSQL = db.quoteSmart(stringName);
-        if(stringName.equals("")){
-            Toast.makeText(getActivity(), "Please fill in a name.", Toast.LENGTH_SHORT).show();
-            error = 1;
-        }
-
-        // Description
-        EditText editTextEditFoodDescription = (EditText)getActivity().findViewById(R.id.editTextEditFoodDescription);
-        String stringDescription = editTextEditFoodDescription.getText().toString();
-        String stringDescriptionSQL = db.quoteSmart(stringDescription);
-
-
-        EditText editTextCal = (EditText)getActivity().findViewById(R.id.food_cal_Tv);
-        String stringFatPerHundred = editTextCal.getText().toString();
-
-        double doubleFatPerHundred = 0;
-        if(stringFatPerHundred.equals("")){
-            Toast.makeText(getActivity(), "Please fill in Calories.", Toast.LENGTH_SHORT).show();
-            error = 1;
-        }
-        else{
-            try {
-                doubleFatPerHundred = Double.parseDouble(stringFatPerHundred);
-            }
-            catch(NumberFormatException nfe) {
-                Toast.makeText(getActivity(), "Calorie is not a number.", Toast.LENGTH_SHORT).show();
-                error = 1;
-            }
-        }
-        String stringFatPerHundredSQL = db.quoteSmart(stringFatPerHundred);
-
-
-        /* Insert */
-        if(error == 0){
-
-            String fields =
-                    "_id, " +
-                            "food_title, " +
-                            "food_cal, " +
-                            "food_text ";
-            String values =
-                    "NULL, " +
-                            stringNameSQL + ", " +
-                            stringFatPerHundredSQL + ", " +
-                            stringDescriptionSQL;
-
-
-            db.insertRecord("food", fields, values);
-
-            // Toast
-            Toast.makeText(getActivity(), "Food created", Toast.LENGTH_SHORT).show();
-
-            // Move user back to correct design
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flMain, new FoodFragmentB(), FoodFragmentB.class.getName()).commit();
-
-        } // error == 0
-
-
-        /* Close db */
-        db.close();
-    } // buttonAddFoodSubmitOnClick
-
-
-
-
-
-
 
 
     @Override

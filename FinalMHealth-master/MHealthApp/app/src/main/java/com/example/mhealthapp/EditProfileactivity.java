@@ -33,7 +33,7 @@ import static android.content.ContentValues.TAG;
 
 public class EditProfileactivity extends AppCompatActivity  {
 
-    private EditText nickName, age, height, weight, bloodGrp;
+    private EditText nickName, age, height, weight;
 
     private Button Submit;
 
@@ -52,7 +52,6 @@ public class EditProfileactivity extends AppCompatActivity  {
         setContentView(R.layout.fragment_edit_profile);
 
         nickName = (EditText) findViewById(R.id.nameETedit);
-        bloodGrp = (EditText) findViewById(R.id.bloodgrpETedit);
         age = (EditText) findViewById(R.id.ageETedit);
         height = (EditText) findViewById(R.id.heightETedit);
         weight = (EditText) findViewById(R.id.weightETedit);
@@ -68,20 +67,12 @@ public class EditProfileactivity extends AppCompatActivity  {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String nkName = dataSnapshot.child("Name").getValue().toString();
-                //String bloodGrpp = dataSnapshot.child("Las").getValue().toString();
-
                 String oage = dataSnapshot.child("Age").getValue().toString();
-
                 String oheight = dataSnapshot.child("Height").getValue().toString();
                 String oweight = dataSnapshot.child("Weight").getValue().toString();
 
-
-                //dataSnapshot.getValue().toString();
-
                 nickName.setText(nkName);
-                //bloodGrp.setText(bloodGrpp);
                 age.setText(oage);
-
                 height.setText(oheight);
                 weight.setText(oweight);
 
@@ -121,15 +112,11 @@ public class EditProfileactivity extends AppCompatActivity  {
         //Toast.makeText(this, userId, Toast.LENGTH_SHORT).show();
 
         String nkname = nickName.getText().toString();
-        String bldgrp = bloodGrp.getText().toString();
         String editage = age.getText().toString();
         String editweight = weight.getText().toString();
         String editheight = height.getText().toString();
 
-
-
         current_user_db.child("Name").setValue(nkname);
-        current_user_db.child("Blood Group").setValue(bldgrp);
         current_user_db.child("Age").setValue(editage);
         current_user_db.child("Weight").setValue(editweight);
         current_user_db.child("Height").setValue(editheight);
@@ -146,7 +133,6 @@ public class EditProfileactivity extends AppCompatActivity  {
         String eage = age.getText().toString();
         String eweight = weight.getText().toString();
         String nkname = nickName.getText().toString();
-        String bldgrp = bloodGrp.getText().toString();
 
         String eheight = height.getText().toString();
 
@@ -156,35 +142,28 @@ public class EditProfileactivity extends AppCompatActivity  {
 
         if (TextUtils.isEmpty(nkname)) {
 
-            Toast.makeText(this, "pLZ ENTER this field ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please ENTER this field", Toast.LENGTH_SHORT).show();
             focusView = nickName;
             cancel = true;
         }
-        if (TextUtils.isEmpty(bldgrp)) {
-            Toast.makeText(this, "pLZ ENTER this field ", Toast.LENGTH_SHORT).show();
-            focusView = bloodGrp;
-            cancel = true;
-        }
+
         if (TextUtils.isEmpty(eage)) {
-            Toast.makeText(this, "pLZ ENTER this field ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please ENTER this field", Toast.LENGTH_SHORT).show();
             focusView = age;
             cancel = true;
         }
         if (TextUtils.isEmpty(eweight)) {
-            Toast.makeText(this, "pLZ ENTER this field ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please ENTER this field", Toast.LENGTH_SHORT).show();
             focusView = weight;
             cancel = true;
         }
         if (TextUtils.isEmpty(eheight)) {
-            Toast.makeText(this, "pLZ ENTER this field ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please ENTER this field", Toast.LENGTH_SHORT).show();
             focusView = height;
             cancel = true;
         }
-
-
+        //For error
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
 

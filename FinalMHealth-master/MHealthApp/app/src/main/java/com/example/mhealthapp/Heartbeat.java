@@ -45,13 +45,8 @@ public class Heartbeat extends Fragment {
 
     private TextView uName,  uAge;
     private DatabaseReference ref;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth auth;
     private String curUid;
-
-
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,8 +59,8 @@ public class Heartbeat extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
 
-        mAuth = FirebaseAuth.getInstance();
-        curUid = mAuth.getCurrentUser().getUid();
+        auth = FirebaseAuth.getInstance();
+        curUid = auth.getCurrentUser().getUid();
 
         ref = FirebaseDatabase.getInstance().getReference().child(curUid);
         uName = (TextView) getActivity().findViewById(R.id.uNameTVhr);
@@ -82,8 +77,6 @@ public class Heartbeat extends Fragment {
 
                     uName.setText(name);
                     uAge.setText(age);
-
-
 
                 } else {
                     Toast.makeText(getActivity(), "Error or no data in database", Toast.LENGTH_SHORT).show();

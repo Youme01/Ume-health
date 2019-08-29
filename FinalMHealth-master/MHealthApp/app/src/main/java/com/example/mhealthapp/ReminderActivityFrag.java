@@ -36,14 +36,13 @@ public class ReminderActivityFrag extends Fragment {
 
     private static final String TAG = "ReminderActivityFrag";
 
-
     DatabaseHelper mdDatabaseHelper;
     int hour,min;
 
     EditText medname , medId;
     Button Time1 , Time2 ,Time3 , save , delmed;
     Spinner dose , duration, med ,food ;
-    String format ,id, food_p, dose_p , time_p ,timeset1, timeset2 ,timeset3 , med_p , newEntry;
+    String format ,id, food_p, dose_p ,timeset1, timeset2 ,timeset3  , newEntry;
     TextView Reminder1,Reminder2,Reminder3;
     Calendar c;
     public ReminderActivityFrag() {
@@ -172,24 +171,6 @@ public class ReminderActivityFrag extends Fragment {
 
 
 
-    //Spinner of medicine category
-    public void Spinner_Med_Category(){
-        ArrayAdapter<CharSequence> adapter3 =ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.med,
-                android.R.layout.simple_spinner_item);
-        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        med.setAdapter(adapter3);
-        med.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                med_p = adapterView.getItemAtPosition(i).toString();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
-
     //Spinner of food : Bf or Af
     public void Spinner_Food(){
         ArrayAdapter<CharSequence> adapter4 =ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.food,
@@ -256,7 +237,7 @@ public class ReminderActivityFrag extends Fragment {
     public void startAlarm(Calendar c){
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1);
         }

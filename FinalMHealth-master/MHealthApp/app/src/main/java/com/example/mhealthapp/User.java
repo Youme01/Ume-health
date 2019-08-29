@@ -20,15 +20,6 @@ public class User {
         this.time_text3 = time_txt3;
     }
 
-    public void setMed_text(String med_text) {
-        med_text = med_text;
-    }
-    public void setDose_text(String dose_text) {
-        dose_text = dose_text;
-    }
-    public void setTime_text(String time_text) {
-        time_text = time_text;
-    }
     public String getMed_txt(){
         return med_text;
     }

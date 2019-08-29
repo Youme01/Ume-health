@@ -2,6 +2,7 @@ package com.example.mhealthapp;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -59,7 +60,12 @@ public class Food_diary  extends Fragment {
 
         /* Set title */
         ((HomeActivity2)getActivity()).getSupportActionBar().setTitle("Food Diary");
+        setUpViews();
+        initalizeHome();
+    }
 
+
+    public void setUpViews(){
         addBreakfast = (TextView) getActivity().findViewById(R.id.addB);
         addLunch = (TextView) getActivity().findViewById(R.id.addL);
         addSnack = (TextView) getActivity().findViewById(R.id.addS);
@@ -79,9 +85,6 @@ public class Food_diary  extends Fragment {
         Food_calL = (TextView)getActivity().findViewById(R.id.textViewLunchItemsEnergy);
         Food_calS = (TextView)getActivity().findViewById(R.id.textViewSnacksItemsEnergy);
         Food_calD = (TextView)getActivity().findViewById(R.id.textViewDinnerItemsEnergy);
-
-        initalizeHome();
-
 
     }
 
@@ -162,8 +165,6 @@ public class Food_diary  extends Fragment {
         double remaining = (5170)-(cal_no);
         Calories.setText(Double.toString(cal_no));
         Remaining_Calories.setText(Double.toString(remaining));
-
-
 
     } // initalizeHome
 

@@ -44,7 +44,6 @@ public class RegistrationActivity extends AppCompatActivity implements DatePicke
     private RadioButton genderBtn, heartDiseaseBtn, diabaticBtn, bloodprsrBtn, pregnantBtn;
     String name, email, userageV, userweightV, userheightV, usergenderV, userDOB, userDiabatic, userBloodprsr, userHeartdisease, userPregnant, userOther, userBloodgrp;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,13 +74,8 @@ public class RegistrationActivity extends AppCompatActivity implements DatePicke
 
     private void sendUserdata() {
 
-
-      //  FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        //DatabaseReference myref = firebaseDatabase.getReference(firebaseAuth.getUid());
-
        String userId = firebaseAuth.getCurrentUser().getUid();
        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-//        UserProfile userProfile = new UserProfile(name, userageV, userweightV, userheightV, usergenderV, userDOB, userDiabatic, userBloodprsr, userHeartdisease, userPregnant, userOther, userBloodgrp);
         int selectedId1 = gender.getCheckedRadioButtonId();
         genderBtn = (RadioButton) findViewById(selectedId1);
 
@@ -98,22 +92,23 @@ public class RegistrationActivity extends AppCompatActivity implements DatePicke
         pregnantBtn = (RadioButton) findViewById(selectedId5);
 
 
+
       name = nickName.getText().toString();
-        userageV = age.getText().toString();
-        usergenderV = genderBtn.getText().toString();
-        userheightV = height.getText().toString();
-        userweightV = weight.getText().toString();
-        userDiabatic = diabaticBtn.getText().toString();
+      userageV = age.getText().toString();
+      usergenderV = genderBtn.getText().toString();
+      userheightV = height.getText().toString();
+      userweightV = weight.getText().toString();
+      userDiabatic = diabaticBtn.getText().toString();
 
-        userBloodprsr = bloodprsrBtn.getText().toString();
+      userBloodprsr = bloodprsrBtn.getText().toString();
 
-        userHeartdisease = heartDiseaseBtn.getText().toString();
+      userHeartdisease = heartDiseaseBtn.getText().toString();
 
-        userPregnant = pregnantBtn.getText().toString();
+      userPregnant = pregnantBtn.getText().toString();
 
-        userOther = other.getText().toString();
-        userBloodgrp = bloodgroup.getText().toString();
-        userDOB = DOB.getText().toString();
+      userOther = other.getText().toString();
+      userBloodgrp = bloodgroup.getText().toString();
+      userDOB = DOB.getText().toString();
 
        Map newPost = new HashMap();
         newPost.put("Name",name);
@@ -131,33 +126,7 @@ public class RegistrationActivity extends AppCompatActivity implements DatePicke
 
         current_user_db.setValue(newPost);
 
-        /*UserProfile userProfile = new UserProfile(name,userageV,userDOB,
-                usergenderV, userweightV, userheightV,userOther,userDiabatic,
-                userBloodprsr,userBloodgrp,userPregnant,userHeartdisease);
-
-        myref.setValue(userProfile);*/
-
-
     }
-
-    private void sendemailverification() {
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
-        if (firebaseUser != null) {
-
-                        sendUserdata();
-                        Toast.makeText(RegistrationActivity.this, "Registration Successful! Verification email has been sent", Toast.LENGTH_LONG).show();
-                        firebaseAuth.signOut();
-                        finish();
-                        startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
-                    } else {
-                        Toast.makeText(RegistrationActivity.this, "Verification email is not sent", Toast.LENGTH_LONG).show();
-
-                    }
-        }
-
-
-
 
     public Boolean validate() {
 
@@ -233,8 +202,6 @@ public class RegistrationActivity extends AppCompatActivity implements DatePicke
                 datepicker.show(getSupportFragmentManager(), "date picker");
             }
         });
-
-
     }
 
     @Override

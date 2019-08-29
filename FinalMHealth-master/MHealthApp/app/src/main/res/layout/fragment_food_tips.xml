@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Food_tips">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/diabetes"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="#fff"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textSize="16sp"
+                android:text="Diabetes Care"
+                android:textStyle="italic"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/hrtDisease"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="#fff"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textSize="16sp"
+                android:text="Heart Care"
+                android:textStyle="italic"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/highBp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="#fff"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textSize="16sp"
+                android:text="Hypertension (HIGH BP)"
+                android:textStyle="italic"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/low_bp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="#fff"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textSize="16sp"
+                android:text="Hypotension (LOW BP)"
+                android:textStyle="italic"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/digestion"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="#fff"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textSize="16sp"
+                android:text="Digestion and Metabolism Care"
+                android:textStyle="italic"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/anaemia"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="#fff"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textSize="16sp"
+                android:text="Anaemia Care"
+                android:textStyle="italic"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/bodycare"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="#fff"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textSize="16sp"
+                android:text="Skin Care"
+                android:textStyle="italic"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    </ScrollView>
+</FrameLayout>

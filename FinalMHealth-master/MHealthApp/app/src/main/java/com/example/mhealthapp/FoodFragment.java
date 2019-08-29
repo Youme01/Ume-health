@@ -30,11 +30,6 @@ public class FoodFragment extends Fragment {
     private View mainView;
     private Cursor listCursor;
 
-    // Action buttons on toolbar
-    private MenuItem menuItemEdit;
-    private MenuItem menuItemDelete;
-
-    // Holder for buttons on toolbar
     private String currentId;
     private String currentName;
     @Override
@@ -119,24 +114,6 @@ public class FoodFragment extends Fragment {
         // Change title
         ((HomeActivity2)getActivity()).getSupportActionBar().setTitle("Add food");
 
-        /* Main category */
-        String spinnerFields[] = new String[] {
-                "_id",
-                "category_title",
-                "category_parent_id"
-        };
-        Cursor dbCursorMain = db.select("categories", spinnerFields, "category_parent_id",
-                "0", "category_title", "ASC");
-
-        // Creating array
-        int dbCursorCount = dbCursorMain.getCount();
-        String[] arraySpinnerMainCategories = new String[dbCursorCount];
-
-        // Convert Cursor to String
-        for(int x=0;x<dbCursorCount;x++){
-            arraySpinnerMainCategories[x] = dbCursorMain.getString(1).toString();
-            dbCursorMain.moveToNext();
-        }
 
         /* SubmitButton listener */
         Button buttonEditFood = (Button)getActivity().findViewById(R.id.buttonEditFood);
@@ -146,7 +123,6 @@ public class FoodFragment extends Fragment {
                 buttonAddFoodSubmitOnClick();
             }
         });
-
 
         /* Close db */
         db.close();
@@ -159,7 +135,6 @@ public class FoodFragment extends Fragment {
 
         // Error?
         int error = 0;
-
 
         /* General */
 

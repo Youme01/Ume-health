@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
+import android.graphics.drawable.AnimationDrawable;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -24,6 +25,7 @@ import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,45 +40,46 @@ import java.util.Map;
 public class camActivity extends AppCompatActivity {
 
 
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase mFirebaseDatabase;
-    private FirebaseAuth.AuthStateListener mAuthListner;
-    private DatabaseReference myref;
-    private String uid;
+    private FirebaseAuth auth;
+    private TextureView textureView;
+    AnimationDrawable animationDrawable;
 
-    private TextureView textureView; //TextureView to deploy camera data
     String cameraId;
+
     protected CameraDevice cameraDevice;
     protected CameraCaptureSession cameraCaptureSessions;
     protected CaptureRequest.Builder captureRequestBuilder;
     private Size imageDimension;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
 
-    // Thread handler member variables
-    private Handler mBackgroundHandler;
-    private HandlerThread mBackgroundThread;
+    private Handler mbackgroundhandler;
+    private HandlerThread mbackgroundthread;
 
-    //Heart rate detector member variables
-    public static int hrtratebpm;
-    private int mCurrentRollingAverage;
-    private int mLastRollingAverage;
-    private int mLastLastRollingAverage;
-    private long [] mTimeArray;
-    private int numCaptures = 0;
-    private int mNumBeats = 0;
-    TextView tv;
+    public static int hrt_rate_cal;
+    private int current_Rolling_avg;
+    private int last_rolling_avg;
+    private int last_last_rolling_avg;
+    private long [] time_array;
+    private int num_click = 0;
+    private int num_beats = 0;
+    TextView hrt_rate_txt , hrt_rate_txt2;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cam);
 
-        textureView = findViewById(R.id.texture);
+        textureView = findViewById(R.id.cam_texture);
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
-        mTimeArray = new long[15];
-        tv = findViewById(R.id.bottomtext);
-
+        time_array = new long[15];
+        hrt_rate_txt = findViewById(R.id.cam_txt);
+        hrt_rate_txt2 = findViewById(R.id.cam_txt2);
+        ImageView image =(ImageView)findViewById(R.id.hrt_img);
+        animationDrawable = (AnimationDrawable)image.getDrawable();
+        animationDrawable.start();
 
     }
 
@@ -112,32 +115,30 @@ public class camActivity extends AppCompatActivity {
                 sum = sum + red;
             }
             // Waits 20 captures, to remove startup artifacts.  First average is the sum.
-            if (numCaptures == 20) {
-                mCurrentRollingAverage = sum;
+            if (num_click == 20) {
+                current_Rolling_avg = sum;
             }
             // Next 18 averages needs to incorporate the sum with the correct N multiplier
             // in rolling average.
-            else if (numCaptures > 20 && numCaptures < 49) {
-                mCurrentRollingAverage = (mCurrentRollingAverage*(numCaptures-20) + sum)/(numCaptures-19);
+            else if (num_click > 20 && num_click < 49) {
+                current_Rolling_avg = (current_Rolling_avg*(num_click -20) + sum)/(num_click -19);
             }
             // From 49 on, the rolling average incorporates the last 30 rolling averages.
-            else if (numCaptures >= 49) {
-                mCurrentRollingAverage = (mCurrentRollingAverage*29 + sum)/30;
-                if (mLastRollingAverage > mCurrentRollingAverage && mLastRollingAverage > mLastLastRollingAverage && mNumBeats < 15) {
-                    mTimeArray[mNumBeats] = System.currentTimeMillis();
-//                    tv.setText("beats="+mNumBeats+"\ntime="+mTimeArray[mNumBeats]);
-                    mNumBeats++;
-                    if (mNumBeats == 15) {
-                        calcBPM();
+            else if (num_click >= 49) {
+                current_Rolling_avg = (current_Rolling_avg*29 + sum)/30;
+                if (last_rolling_avg > current_Rolling_avg && last_rolling_avg > last_last_rolling_avg && num_beats < 15) {
+                    time_array[num_beats] = System.currentTimeMillis();
+                    num_beats++;
+                    if (num_beats == 15) {
+                        calculateBPM();
                     }
                 }
             }
-
             // Another capture
-            numCaptures++;
+            num_click++;
             // Save previous two values
-            mLastLastRollingAverage = mLastRollingAverage;
-            mLastRollingAverage = mCurrentRollingAverage;
+            last_last_rolling_avg = last_rolling_avg;
+            last_rolling_avg = current_Rolling_avg;
 
         }
     };
@@ -166,42 +167,51 @@ public class camActivity extends AppCompatActivity {
 
     // onResume
     protected void startBackgroundThread() {
-        mBackgroundThread = new HandlerThread("Camera Background");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+        mbackgroundthread = new HandlerThread("Camera Background");
+        mbackgroundthread.start();
+        mbackgroundhandler = new Handler(mbackgroundthread.getLooper());
     }
     // onPause
     protected void stopBackgroundThread() {
-        mBackgroundThread.quitSafely();
+        mbackgroundthread.quitSafely();
         try {
-            mBackgroundThread.join();
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
+            mbackgroundthread.join();
+            mbackgroundthread = null;
+            mbackgroundhandler = null;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private void calcBPM() {
-        int med;
+    private void calculateBPM() {
+
+       int cal = 0;
         long [] timedist = new long [14];
         for (int i = 0; i < 14; i++) {
-            timedist[i] = mTimeArray[i+1] - mTimeArray[i];
+            timedist[i] = time_array[i+1] - time_array[i];
         }
         Arrays.sort(timedist);
-        med = (int) timedist[timedist.length/2];
-        hrtratebpm= 60000/med;
-        tv.setText("Heart Rate = "+hrtratebpm+" BPM");
+        cal = (int) timedist[timedist.length/2];
+        hrt_rate_cal = 60000/cal;
 
-        ////
-        mAuth = FirebaseAuth.getInstance();
-        String userId = mAuth.getCurrentUser().getUid();
-        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("UserHeartRate").child(userId);
+        hrt_rate_txt2.setText("");
+        hrt_rate_txt.setText("Heart Rate = "+ hrt_rate_cal +" BPM");
+        animationDrawable.stop();
 
-        String hrt = String.valueOf(hrtratebpm);
+        auth = FirebaseAuth.getInstance();
+        String userId = auth.getCurrentUser().getUid();
+        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("HeartRate").child(userId);
+
+        String hrt = String.valueOf(hrt_rate_cal);
         Map newPost = new HashMap();
-        newPost.put("Last HeartRate",hrt);
+        newPost.put("Current HeartRate",hrt);
         current_user_db.setValue(newPost);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("BPM",String.valueOf(hrt_rate_cal) );
+        heartRateWithApi fragobj = new heartRateWithApi();
+        fragobj.setArguments(bundle);
+
     }
 
     protected void createCameraPreview() {
@@ -232,7 +242,7 @@ public class camActivity extends AppCompatActivity {
         }
     }
 
-    // Opening the rear-facing camera for use
+    // Opening camera to measure heart rate
     private void openCamera() {
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
@@ -241,7 +251,9 @@ public class camActivity extends AppCompatActivity {
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             assert map != null;
             imageDimension = map.getOutputSizes(SurfaceTexture.class)[0];
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(camActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
                 return;
             }
@@ -253,12 +265,12 @@ public class camActivity extends AppCompatActivity {
 
     protected void updatePreview() {
         if (null == cameraDevice) {
-            Log.i("CAM", "updatePreview error, return");
+            Log.w("CAMERA", "Error in Updating");
         }
         captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
         captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
         try {
-            cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(), null, mBackgroundHandler);
+            cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(), null, mbackgroundhandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -274,8 +286,8 @@ public class camActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                // close the app
-                Toast.makeText(camActivity.this, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show();
+                // app is closed
+                Toast.makeText(camActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
                 finish();
             }
         }
@@ -306,5 +318,7 @@ public class camActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
     }
+
+
 }
 

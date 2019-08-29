@@ -16,7 +16,7 @@ import okhttp3.OkHttpClient;
 
 public class NutritionFragment extends Fragment {
 
-    Button btnC , btnF ,btnD;
+    Button btnTips , btnF ,btnD;
 
 
     @Override
@@ -24,7 +24,7 @@ public class NutritionFragment extends Fragment {
                              Bundle savedInstanceState) {
         ((HomeActivity2) getActivity()).setActionBarTitle("Food & Nutritions");
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_nutrition_fragment, container, false);
+        return inflater.inflate(R.layout.activity_main_meal_plan, container, false);
     }
 
     @Override
@@ -34,6 +34,7 @@ public class NutritionFragment extends Fragment {
        // btnC = (Button)getActivity().findViewById(R.id.cat);
         btnF = (Button)getActivity().findViewById(R.id.food);
         btnD = (Button)getActivity().findViewById(R.id.food_D);
+        btnTips = (Button)getActivity().findViewById(R.id.h_tips);
         Stetho.initializeWithDefaults(getContext());
 
         new OkHttpClient.Builder()
@@ -46,7 +47,6 @@ public class NutritionFragment extends Fragment {
 
         if(rows<1) {
             DbFoodInsert dbFoodInsert = new DbFoodInsert(getContext());
-            dbFoodInsert.insertToAllCategories();
             dbFoodInsert.insertAllfood();
 
         }
@@ -64,6 +64,14 @@ public class NutritionFragment extends Fragment {
             public void onClick(View view) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.flMain, new Food_diary());
+                ft.commit();
+            }
+        });
+        btnTips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flMain, new Food_tips());
                 ft.commit();
             }
         });

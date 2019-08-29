@@ -29,7 +29,6 @@ public class FoodCursorAdapter extends CursorAdapter {
         // Extract properties from cursor
         int getID = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
         String getName = cursor.getString(cursor.getColumnIndexOrThrow("food_title"));
-
         String getcal = cursor.getString(cursor.getColumnIndexOrThrow("food_cal"));
         String getDescription = cursor.getString(cursor.getColumnIndexOrThrow("food_text"));
 

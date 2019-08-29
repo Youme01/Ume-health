@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -171,6 +172,9 @@ public class HomeActivity2 extends AppCompatActivity
 //            startActivity(new Intent(HomeActivity2.this, ProfileActivity.class));
         } else if (id == R.id.nav_HeartRateMenu) {
             Toast.makeText(HomeActivity2.this, "Heart Rate is clicked ", Toast.LENGTH_SHORT).show();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.flMain, new heartRateWithApi());
+            ft.commit();
 
 
         } else if (id == R.id.nav_ActivityMenu) {
@@ -181,6 +185,9 @@ public class HomeActivity2 extends AppCompatActivity
 
         } else if (id == R.id.nav_BMIMenu) {
             Toast.makeText(HomeActivity2.this, "BMIMenu is clicked ", Toast.LENGTH_SHORT).show();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.flMain, new BMI_Frag());
+            ft.commit();
 
         } else if (id == R.id.nav_MealPlanMenu) {
             Toast.makeText(HomeActivity2.this, "MealPlanMenu is clicked ", Toast.LENGTH_SHORT).show();
@@ -190,17 +197,15 @@ public class HomeActivity2 extends AppCompatActivity
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flMain, new ListViewFragment());
             ft.commit();
-//            Toast.makeText(HomeActivity2.this, "ReminderMenu is clicked ", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_settings) {
-            Toast.makeText(HomeActivity2.this, "settings is clicked ", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_logoutMenu) {
-            Toast.makeText(HomeActivity2.this, "logout is clicked ", Toast.LENGTH_SHORT).show();
             Logout();
         }else if (id == R.id.nav_action_FAQ) {
-            Toast.makeText(HomeActivity2.this, "FAQ is clicked ", Toast.LENGTH_SHORT).show();
-
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.flMain, new Faq());
+            ft.commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

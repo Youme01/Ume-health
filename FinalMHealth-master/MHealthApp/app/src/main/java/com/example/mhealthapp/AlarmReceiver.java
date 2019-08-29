@@ -1,11 +1,12 @@
 package com.example.mhealthapp;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 
-class AlarmReceiver {
+public class AlarmReceiver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
 
