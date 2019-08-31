@@ -3,15 +3,10 @@ package com.example.mhealthapp;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -30,15 +25,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.view.Menu;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -169,26 +157,28 @@ public class HomeActivity2 extends AppCompatActivity
             ft.commit();
 
         } else if (id == R.id.nav_HeartRateMenu) {
-            Toast.makeText(HomeActivity2.this, "Heart Rate is clicked ", Toast.LENGTH_SHORT).show();
+
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flMain, new heartRateWithApi()).addToBackStack(null);
+            ft.replace(R.id.flMain, new HeartRate()).addToBackStack(null);
             ft.commit();
 
 
         } else if (id == R.id.nav_ActivityMenu) {
-            Toast.makeText(HomeActivity2.this, "ActivityMenu is clicked ", Toast.LENGTH_SHORT).show();
+
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flMain, new Steps()).addToBackStack(null);
+            ft.replace(R.id.flMain, new StepsWithApiFrag()).addToBackStack(null);
             ft.commit();
 
         } else if (id == R.id.nav_BMIMenu) {
-            Toast.makeText(HomeActivity2.this, "BMIMenu is clicked ", Toast.LENGTH_SHORT).show();
+
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flMain, new BMI_Frag()).addToBackStack(null);
             ft.commit();
 
         } else if (id == R.id.nav_MealPlanMenu) {
-            Toast.makeText(HomeActivity2.this, "MealPlanMenu is clicked ", Toast.LENGTH_SHORT).show();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.flMain, new NutritionFragment()).addToBackStack(null);
+            ft.commit();
 
         } else if (id == R.id.nav_ReminderMenu) {
 

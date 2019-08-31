@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
@@ -25,15 +26,23 @@ import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +52,7 @@ public class camActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private TextureView textureView;
     AnimationDrawable animationDrawable;
+    DatabaseReference current_user_db , hrtrateDB;
 
     String cameraId;
 
@@ -59,12 +69,13 @@ public class camActivity extends AppCompatActivity {
     private int current_Rolling_avg;
     private int last_rolling_avg;
     private int last_last_rolling_avg;
-    private long [] time_array;
+    private long[] time_array;
     private int num_click = 0;
     private int num_beats = 0;
-    TextView hrt_rate_txt , hrt_rate_txt2;
+    TextView hrt_rate_txt, hrt_rate_txt2;
+    Button okBTn;
 
-
+    int totalday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +88,15 @@ public class camActivity extends AppCompatActivity {
         time_array = new long[15];
         hrt_rate_txt = findViewById(R.id.cam_txt);
         hrt_rate_txt2 = findViewById(R.id.cam_txt2);
-        ImageView image =(ImageView)findViewById(R.id.hrt_img);
-        animationDrawable = (AnimationDrawable)image.getDrawable();
+        ImageView image = (ImageView) findViewById(R.id.hrt_img);
+        animationDrawable = (AnimationDrawable) image.getDrawable();
         animationDrawable.start();
+        okBTn = findViewById(R.id.Okbtn);
+        okBTn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -121,11 +138,11 @@ public class camActivity extends AppCompatActivity {
             // Next 18 averages needs to incorporate the sum with the correct N multiplier
             // in rolling average.
             else if (num_click > 20 && num_click < 49) {
-                current_Rolling_avg = (current_Rolling_avg*(num_click -20) + sum)/(num_click -19);
+                current_Rolling_avg = (current_Rolling_avg * (num_click - 20) + sum) / (num_click - 19);
             }
             // From 49 on, the rolling average incorporates the last 30 rolling averages.
             else if (num_click >= 49) {
-                current_Rolling_avg = (current_Rolling_avg*29 + sum)/30;
+                current_Rolling_avg = (current_Rolling_avg * 29 + sum) / 30;
                 if (last_rolling_avg > current_Rolling_avg && last_rolling_avg > last_last_rolling_avg && num_beats < 15) {
                     time_array[num_beats] = System.currentTimeMillis();
                     num_beats++;
@@ -171,6 +188,7 @@ public class camActivity extends AppCompatActivity {
         mbackgroundthread.start();
         mbackgroundhandler = new Handler(mbackgroundthread.getLooper());
     }
+
     // onPause
     protected void stopBackgroundThread() {
         mbackgroundthread.quitSafely();
@@ -185,32 +203,41 @@ public class camActivity extends AppCompatActivity {
 
     private void calculateBPM() {
 
-       int cal = 0;
-        long [] timedist = new long [14];
+        int cal = 0;
+        long[] timedist = new long[14];
         for (int i = 0; i < 14; i++) {
-            timedist[i] = time_array[i+1] - time_array[i];
+            timedist[i] = time_array[i + 1] - time_array[i];
         }
         Arrays.sort(timedist);
-        cal = (int) timedist[timedist.length/2];
-        hrt_rate_cal = 60000/cal;
+        cal = (int) timedist[timedist.length / 2];
+        hrt_rate_cal = 60000 / cal;
 
         hrt_rate_txt2.setText("");
-        hrt_rate_txt.setText("Heart Rate = "+ hrt_rate_cal +" BPM");
+        hrt_rate_txt.setText("Heart Rate = " + hrt_rate_cal + " BPM");
         animationDrawable.stop();
+        insertintoDB(hrt_rate_cal);
 
+    }
+
+    public void insertintoDB(int hrt_rate_cal) {
         auth = FirebaseAuth.getInstance();
-        String userId = auth.getCurrentUser().getUid();
-        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("HeartRate").child(userId);
 
-        String hrt = String.valueOf(hrt_rate_cal);
+        String userId = auth.getCurrentUser().getUid();
+
+
+        current_user_db = FirebaseDatabase.getInstance().getReference().child("HeartRate").child(userId);
+
         Map newPost = new HashMap();
-        newPost.put("Current HeartRate",hrt);
+
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+
+        newPost.put("timestamp", currentDateTimeString);
+
+        newPost.put("Current HeartRate", hrt_rate_cal);
+
         current_user_db.setValue(newPost);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("BPM",String.valueOf(hrt_rate_cal) );
-        heartRateWithApi fragobj = new heartRateWithApi();
-        fragobj.setArguments(bundle);
+
 
     }
 
@@ -275,6 +302,7 @@ public class camActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     private void closeCamera() {
         if (null != cameraDevice) {
             cameraDevice.close();
@@ -292,6 +320,7 @@ public class camActivity extends AppCompatActivity {
             }
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -302,6 +331,7 @@ public class camActivity extends AppCompatActivity {
             textureView.setSurfaceTextureListener(textureListener);
         }
     }
+
     @Override
     protected void onPause() {
         closeCamera();

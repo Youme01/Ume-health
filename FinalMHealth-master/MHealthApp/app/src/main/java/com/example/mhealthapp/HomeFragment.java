@@ -1,15 +1,9 @@
 package com.example.mhealthapp;
 
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,17 +11,8 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.smarteist.autoimageslider.IndicatorAnimations;
-import com.smarteist.autoimageslider.SliderAnimations;
-import com.smarteist.autoimageslider.SliderView;
-import com.smarteist.autoimageslider.SliderViewAdapter;
 
 
 /**
@@ -77,7 +62,7 @@ public class HomeFragment  extends Fragment   {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new heartRateWithApi()).addToBackStack(null);
+                ft.replace(R.id.flMain, new HeartRate()).addToBackStack(null);
                 ft.commit();
             }
         });
@@ -116,9 +101,9 @@ public class HomeFragment  extends Fragment   {
         sleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              /*  FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new heartRateWithApi()).addToBackStack(null);
-                ft.commit();*/
+               FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flMain, new Sleep_main()).addToBackStack(null);
+                ft.commit();
             }
         });
 

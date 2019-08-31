@@ -29,10 +29,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,21 +40,23 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StepsWithApiFrag extends Fragment {
+public class StepsWithApiFrag extends Fragment  {
 
-    private static DecimalFormat df2 = new DecimalFormat("#.##");
+    private static double dis;
 
     private FirebaseAuth mAuth;
 
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
 
-    TextView stepcounter,dstMeasurre,goals,avg , totalSteps;
+    TextView stepcounter, dstMeasurre, goals, avg, totalSteps;
     EditText setGoalsEditText;
     String StringsetGoals;
-    long numOfSetgoals;
+    long numOfSetgoals , average,total ,totalStepsCount;
 
-    Button setGoals, viewGraph;
+
+    Button setGoals, viewGraph ;
+
     public StepsWithApiFrag() {
         // Required empty public constructor
     }
@@ -64,72 +66,78 @@ public class StepsWithApiFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_steps_with_api, container, false);
     }
+
     @Override
 
 
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)  {
 
 
         stepcounter = getActivity().findViewById(R.id.tv_steps);
         dstMeasurre = getActivity().findViewById(R.id.distance_idTV);
-        goals = getActivity().findViewById(R.id.goalsStepsTV);
+        goals = (TextView) getActivity().findViewById(R.id.goalsStepsTV);
         avg = getActivity().findViewById(R.id.avgTV);
         setGoals = getActivity().findViewById(R.id.setGoalsbtn);
         viewGraph = getActivity().findViewById(R.id.graphBtn);
-        setGoalsEditText  = getActivity().findViewById(R.id.setGoalsET);
+        setGoalsEditText =(EditText) getActivity().findViewById(R.id.setGoalsET);
         totalSteps = getActivity().findViewById(R.id.totalStepsTV);
 
-        StringsetGoals = setGoalsEditText.getText().toString();
+
+        setGoals.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                StringsetGoals = setGoalsEditText.getText().toString();
+                goals.setText(StringsetGoals);
+                numOfSetgoals = Long.parseLong(StringsetGoals);
+                setGoalsEditText.getText().clear();
 
 
-       // numOfSetgoals = Integer.parseInt(StringsetGoals);
+            }
+        });
 
 
+        viewGraph.setOnClickListener(new View.OnClickListener() {
 
-//        setGoals.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//
-//                goals.setText(StringsetGoals);
-//            }
-//        });
-
-
-//        viewGraph.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // go to new activity to show graph
-//            }
-//        });
+            @Override
+            public void onClick(View v) {
+                // go to new activity to show graph
+            }
+        });
 
 
         FitnessOptions fitnessOptions = FitnessOptions.builder()
                 .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
+                .addDataType(DataType.TYPE_CALORIES_EXPENDED)
                 .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
                 .build();
 
 
         if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(getActivity()), fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                    this,
-                    REQUEST_OAUTH_REQUEST_CODE,
-                    GoogleSignIn.getLastSignedInAccount(getActivity()),
-                    fitnessOptions);
+            googleSignIn(fitnessOptions);
 
         } else {
             subscribe();
         }
 
-        readData();
-
+        readDataFromApiusingGoogleFit();
 
 
     }
+
+    public void googleSignIn( FitnessOptions fitnessOptions){
+
+        GoogleSignIn.requestPermissions(
+                this,
+                REQUEST_OAUTH_REQUEST_CODE,
+                GoogleSignIn.getLastSignedInAccount(getActivity()),
+                fitnessOptions);
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -140,27 +148,96 @@ public class StepsWithApiFrag extends Fragment {
         }
     }
 
+
+
+
     public void subscribe() {
-        // To create a subscription, invoke the Recording API. As soon as the subscription is
-        // active, fitness data will start recording.
+
+
         Fitness.getRecordingClient(getActivity(), GoogleSignIn.getLastSignedInAccount(getActivity()))
                 .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
                 .addOnCompleteListener(
                         new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.i(TAG, "Successfully subscribed!");
-                                } else {
-                                    Log.w(TAG, "There was a problem subscribing.", task.getException());
-                                }
+                                checktask( task);
                             }
                         });
     }
 
-    public void readData() {
+
+    public void checktask(@NonNull Task<Void> task){
+        if (task.isSuccessful()) {
+            Log.i(TAG, " subscribed!");
+        } else {
+            Log.w(TAG, " Problem subscribing.", task.getException());
+        }
 
 
+    }
+
+
+
+
+    public  void dataCalculation(DataSet dataSet){
+
+        int daycounter = 1;
+        totalStepsCount = 0;
+
+        total =
+                dataSet.isEmpty()
+                        ? 0
+                        : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+
+
+        double distance = (total * .0008);
+        String dis = String.valueOf(distance);
+        stepcounter.setText(String.valueOf(total));
+        dstMeasurre.setText(dis + " km");
+        while(total != 0){
+            totalStepsCount = totalStepsCount + total;
+
+        }
+        //day counting to calculate avg steps per day
+        if (total == 0 ){
+            daycounter = daycounter+1;
+        }
+
+
+        if(total == numOfSetgoals && total>0){
+            Toast.makeText(getActivity(), "Hurrah You have reached Your Goal", Toast.LENGTH_SHORT).show();
+        }
+        //total
+        totalSteps.setText(String.valueOf(totalStepsCount)+ "Steps");
+        //avg
+        int average =(int) Math.ceil (total /daycounter);
+        avg.setText(String.valueOf(average)+"Steps /Day");
+
+    }
+
+    //firebaseDataEntry
+
+    public void insertDataintoDatabase(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String userId = mAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference myRef = database.getReference("StepsUSer").child(userId);
+
+        String stepcString = String.valueOf(total);
+        String avgString = String.valueOf(average);
+        String TotalStepsTillnow = String.valueOf(totalStepsCount);
+
+        Map newPost = new HashMap();
+        newPost.put("Step Count",stepcString);
+        newPost.put("Distance",dis);
+        newPost.put("Average",avgString);
+        newPost.put("TotalSteps tillNow",TotalStepsTillnow);
+
+        myRef.setValue(newPost);
+    }
+
+
+
+    public void readDataFromApiusingGoogleFit() {
 
         Fitness.getHistoryClient(getActivity(), GoogleSignIn.getLastSignedInAccount(getActivity()))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
@@ -168,69 +245,21 @@ public class StepsWithApiFrag extends Fragment {
                         new OnSuccessListener<DataSet>() {
                             @Override
                             public void onSuccess(DataSet dataSet) {
-                                int daycounter = 1 ;
-                                long totalStepsCount = 0;
 
-                                long total =
-                                        dataSet.isEmpty()
-                                                ? 0
-                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-                                Log.i(TAG, "Total steps: " + total);
+                                dataCalculation(dataSet);
+                                insertDataintoDatabase();
 
 
-                                double distance = (total*.0008);
-                                String dis = df2.format(distance);
-                                stepcounter.setText(String.valueOf(total));
-                                dstMeasurre.setText(dis+" km");
-//                                while(total != 0){
-//                                    totalStepsCount = totalStepsCount + total;
-//
-//                                }
-//                                //day counting to calculate avg steps per day
-//                                if (total == 0 ){
-//                                    daycounter = daycounter+1;
-//                                }
-//
-//
-//                                if(total == numOfSetgoals){
-//                                    Toast.makeText(getActivity(), "Hurrah You have reached Your Goal", Toast.LENGTH_SHORT).show();
-//                                }
-//                                //total
-//                                totalSteps.setText(String.valueOf(totalStepsCount)+ "Steps");
-//                                //avg
-//                                int average =(int) Math.ceil (total /daycounter);
-//                                avg.setText(String.valueOf(average)+"Steps /Day");
-
-
-
-
-
-
-
-                                // youme Check this and fixed this portion DATABASE
-
-//                                mAuth = FirebaseAuth.getInstance();
-//                                String userId = mAuth.getCurrentUser().getUid();
-//                                DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("UserSteps").child(userId);
-//
-//                                String stepcString = String.valueOf(total);
-//                                String avgString = String.valueOf(average);
-//                                String TotalStepsTillnow = String.valueOf(totalStepsCount);
-//
-//                                Map newPost = new HashMap();
-//                                newPost.put("Step Count",stepcString);
-//                                newPost.put("Distance",dis);
-//                                newPost.put("Average",avgString);
-//                                newPost.put("TotalSteps tillNow",TotalStepsTillnow);
-
-//                                current_user_db.setValue(newPost);
                             }
                         })
                 .addOnFailureListener(
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "There was a problem getting the step count.", e);
+
+                                Toast.makeText(getActivity(), "Problem with stepCounting ", Toast.LENGTH_SHORT).show();
+
+                                Log.w(TAG, "Problem getting the stepcounting value.", e);
                             }
                         });
     }

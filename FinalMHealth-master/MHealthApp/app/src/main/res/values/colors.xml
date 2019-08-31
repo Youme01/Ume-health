@@ -8,5 +8,7 @@
     <color name="colorProfile">#d63838</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="buttoncolor1">#185B85</color>
+    <color name="buttontextcolor1">#F3F0F0</color>
 
 </resources>

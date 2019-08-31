@@ -46,6 +46,12 @@ public class DBAdapter {
         public void onCreate(SQLiteDatabase db)
         {
             try {
+                db.execSQL("CREATE TABLE IF NOT EXISTS Heart_Rate "  +
+                        "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        " h_id INT, " +
+                        " h_date DATE, " +
+                        " h_status VARCHAR, " +
+                        " h_rate INT);");
                 db.execSQL("CREATE TABLE IF NOT EXISTS food_diary_Breakfast "  +
                         "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         " fd_id INT, " +

@@ -28,7 +28,6 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".camActivity" />
         <activity android:name=".EditProfileactivity" />
-        <activity android:name=".gridviewActivity" />
         <activity
             android:name=".HomeActivity2"
             android:label="@string/title_activity_home2"
