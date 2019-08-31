@@ -203,7 +203,7 @@ public class ReminderActivityFrag extends Fragment {
                     AddData(newEntry,dose_p,food_p,timeset1,timeset2,timeset3);
                     medname.setText(" ");
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.flMain, new ListViewFragment());
+                    ft.replace(R.id.flMain, new ListViewFragment()).addToBackStack(null);
                     ft.commit();
                 }else{
                     Toast("Please Enter The Details");

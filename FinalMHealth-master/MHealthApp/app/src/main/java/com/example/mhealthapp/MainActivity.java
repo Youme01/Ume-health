@@ -2,6 +2,7 @@ package com.example.mhealthapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -30,6 +31,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.tomer.fadingtextview.FadingTextView;
+
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -50,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FadingTextView fd = (FadingTextView)findViewById(R.id.welcome_txt);
+        fd.setTimeout(2, TimeUnit.SECONDS);
 
 
         gSignIn = findViewById(R.id.sign_in_button);
@@ -74,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         }
 
+
     }
 
     private void signIn() {
@@ -88,9 +96,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-// Build a GoogleApiClient with access to GoogleSignIn.API and the options above.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, options)
                 .build();
     }
@@ -106,11 +113,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             if (result.isSuccess()) {
                 AuthCredential credential = GoogleAuthProvider.getCredential(result.getSignInAccount().getIdToken(), null);
                 firebaseAuthWithGoogle(credential);
-                Toast.makeText(MainActivity.this,"Working",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"Wait for some time",Toast.LENGTH_SHORT).show();
             } else {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(this, "Login Unsuccessful", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(this, "Login Unsuccessful", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -136,13 +142,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.child(uid).exists()) {
-                                        Toast.makeText(MainActivity.this, "User exists", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MainActivity.this, "Already Registered", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(MainActivity.this,HomeActivity2.class);
                                         finish();
                                         startActivity(intent);
                                     }
                                     else {
-                                        Toast.makeText(MainActivity.this, "User not exist", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MainActivity.this, "Register To Begin", Toast.LENGTH_SHORT).show();
 
                                         Intent intent = new Intent(MainActivity.this,RegistrationActivity.class);
                                         finish();
@@ -155,12 +161,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                                 }
                             });
-
-                            //Toast.makeText(MainActivity.this, uid, Toast.LENGTH_SHORT).show();
-
-//                            Intent intent = new Intent(MainActivity.this,LoggedInActivity.class);
-//                            finish();
-//                            startActivity(intent);
 
                         }
                     }

@@ -23,7 +23,7 @@ import android.widget.Button;
  */
 public class Food_tips extends Fragment {
 
-    Button diab , hrt,lBP,hBP, skin,anaemia,digestion;
+    Button diab , hrt, skin,anaemia;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +50,7 @@ public class Food_tips extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new DiabetesFrag());
+                ft.replace(R.id.flMain, new DiabetesFrag()).addToBackStack(null);
                 ft.commit();
             }
         });
@@ -58,24 +58,7 @@ public class Food_tips extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new HeartCareFrag());
-                ft.commit();
-            }
-        });
-
-        lBP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new LowBpFrag());
-                ft.commit();
-            }
-        });
-        hBP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new HighBpFrag());
+                ft.replace(R.id.flMain, new HeartCareFrag()).addToBackStack(null);
                 ft.commit();
             }
         });
@@ -84,7 +67,7 @@ public class Food_tips extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new BodyFrag());
+                ft.replace(R.id.flMain, new BodyFrag()).addToBackStack(null);
                 ft.commit();
             }
         });
@@ -93,19 +76,10 @@ public class Food_tips extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new AnaemiaFrag());
+                ft.replace(R.id.flMain, new AnaemiaFrag()).addToBackStack(null);
                 ft.commit();
             }
         });
-        digestion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new DigestionFrag());
-                ft.commit();
-            }
-        });
-
 
     }
 
@@ -113,12 +87,8 @@ public class Food_tips extends Fragment {
     public void setUpViews(){
         diab = (Button)getActivity().findViewById(R.id.diabetes);
         hrt= (Button)getActivity().findViewById(R.id.hrtDisease);
-        lBP = (Button)getActivity().findViewById(R.id.low_bp);
-        hBP = (Button)getActivity().findViewById(R.id.highBp);
         skin = (Button)getActivity().findViewById(R.id.bodycare);
         anaemia = (Button)getActivity().findViewById(R.id.anaemia);
-        digestion = (Button)getActivity().findViewById(R.id.digestion);
-
     }
 
 

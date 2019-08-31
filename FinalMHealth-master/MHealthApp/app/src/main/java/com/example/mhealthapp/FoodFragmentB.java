@@ -280,8 +280,6 @@ public class FoodFragmentB extends Fragment {
             Toast.makeText(getActivity(), "Gram cannot be empty", Toast.LENGTH_SHORT).show();
         }
 
-        // Energy calcualted
-        // energy = myConsumotion*kcal/100
 
         double doubleCal = Double.parseDouble(stringCal);
         double doubleFdEnergyCalculated = 0;
@@ -322,7 +320,7 @@ public class FoodFragmentB extends Fragment {
             }
 
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flMain, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.flMain, fragment).addToBackStack(null).commit();
 
         }
 

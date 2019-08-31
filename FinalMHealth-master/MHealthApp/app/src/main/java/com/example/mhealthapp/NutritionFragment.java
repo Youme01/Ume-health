@@ -55,7 +55,7 @@ public class NutritionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new FoodFragment());
+                ft.replace(R.id.flMain, new FoodFragment()).addToBackStack(null);
                 ft.commit();
             }
         });
@@ -63,7 +63,7 @@ public class NutritionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new Food_diary());
+                ft.replace(R.id.flMain, new Food_diary()).addToBackStack(null);
                 ft.commit();
             }
         });
@@ -71,7 +71,7 @@ public class NutritionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new Food_tips());
+                ft.replace(R.id.flMain, new Food_tips()).addToBackStack(null);
                 ft.commit();
             }
         });

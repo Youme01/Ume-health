@@ -69,7 +69,7 @@ public class ListViewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.flMain, new ReminderActivityFrag());
+                ft.replace(R.id.flMain, new ReminderActivityFrag()).addToBackStack(null);
                 ft.commit();
             }
         });

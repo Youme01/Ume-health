@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,15 +37,11 @@ public class HomeFragment  extends Fragment   {
 
     ImageView image;
 
-    GridView gridView;
-    String[] funcNames = {"Activity", "Heart Rate", "Steps", "Food&\nNutrition", "BMI", "Exercise", "Profile", "Reminders", "Sleep", "Settings", "About Us"};
-    int[] funcImg = {R.drawable.activity1, R.drawable.heartbeat, R.drawable.steps, R.drawable.mealplan, R.drawable.bmi, R.drawable.exercise, R.drawable.profile, R.drawable.notification
-            , R.drawable.sleep, R.drawable.settings, R.drawable.aboutus};
+    Button hrt , steps ,meal , pill, bmi , sleep;
 
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +54,16 @@ public class HomeFragment  extends Fragment   {
 
 
     }
+
+    public void setupViews(){
+
+        hrt = (Button)getActivity().findViewById(R.id.btnHrt);
+        steps = (Button)getActivity().findViewById(R.id.btnSteps);
+        meal = (Button)getActivity().findViewById(R.id.btnmeal);
+        pill = (Button)getActivity().findViewById(R.id.btnreminder);
+        bmi = (Button)getActivity().findViewById(R.id.btnBmi);
+        sleep = (Button)getActivity().findViewById(R.id.btnsleep);
+    }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -64,86 +71,59 @@ public class HomeFragment  extends Fragment   {
         image =(ImageView)getView().findViewById(R.id.img);
         AnimationDrawable animationDrawable = (AnimationDrawable)image.getDrawable();
         animationDrawable.start();
-        gridView = (GridView) getView().findViewById(R.id.allAppGv);
 
-        HomeFragment.CustomAdapter customAdpter = new HomeFragment.CustomAdapter();
-        gridView.setAdapter(customAdpter);
-        setOnItemclikForGridView();
-
-    }
-    private class CustomAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return funcImg.length;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            View view1 = (View) getLayoutInflater().inflate(R.layout.row_data, null);
-
-            TextView name = view1.findViewById(R.id.activityIconTV);
-            ImageView img = view1.findViewById(R.id.activityIconIV);
-            name.setText(funcNames[i]);
-
-
-            img.setImageResource(funcImg[i]);
-
-
-            return view1;
-
-
-        }
-
-    }
-
-
-    public void setOnItemclikForGridView() {
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        setupViews();
+        hrt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), gridviewActivity.class);
-                intent.putExtra("name", funcNames[i]);
-                intent.putExtra("image", funcImg[i]);
-                if (funcNames[i] == "Profile") {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.flMain, new ProfileActivityFrag());
-                    ft.commit();                }
-                else if (funcNames[i] == "Reminders") {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.flMain, new ListViewFragment());
-                    ft.commit();
-                }else if(funcNames[i] == "Heart Rate"){
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.flMain, new Heartbeat());
-                    ft.commit();
-
-                }else if(funcNames[i] == "Food&\nNutrition") {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.flMain, new NutritionFragment());
-                    ft.commit();
-                }else if(funcNames[i]=="Steps"){
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.flMain, new StepsWithApiFrag());
-                    ft.commit();
-
-                }
-
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flMain, new heartRateWithApi()).addToBackStack(null);
+                ft.commit();
             }
-
         });
-    }
+        steps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flMain, new StepsWithApiFrag()).addToBackStack(null);
+                ft.commit();
+            }
+        });
+        meal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flMain, new NutritionFragment()).addToBackStack(null);
+                ft.commit();
+            }
+        });
+        pill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flMain, new ListViewFragment()).addToBackStack(null);
+                ft.commit();
+            }
+        });
+        bmi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flMain, new BMI_Frag()).addToBackStack(null);
+                ft.commit();
+            }
+        });
+        sleep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              /*  FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flMain, new heartRateWithApi()).addToBackStack(null);
+                ft.commit();*/
+            }
+        });
 
+
+    }
 
 
         }

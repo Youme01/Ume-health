@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -25,6 +26,10 @@ public class HeartCareFrag extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+
+    TextView tips,prevention,food_eat,food_avoid;
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -34,6 +39,46 @@ public class HeartCareFrag extends Fragment {
     public HeartCareFrag() {
         // Required empty public constructor
     }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setUpViews();
+        tips.setText("Eat Healthily \n" +
+                "Exercise Regularly\n"+
+                "Avoid Stree\n" +
+                "Quit Smoking\n" +
+                "Mind Your Blood Sugar\n" +
+                "Maintain Healthy Blood Pressure\n" +
+                "Get Enough Sleep"
+        );
+        food_avoid.setText("Unhealty Fats\n" +
+                "Processed Meat\n"+
+                "Soft Drinks"
+
+        );
+        prevention.setText("Control High Blood Pressure\n" +
+                "Control Diabetes\n"+
+                "Get to a Healthy Weight\n"+
+                "Improve Cholestrol Levels"
+        );
+        food_eat.setText("Salmon\n" +
+                "Oatmeal\n" +
+                "Raspberries\n" +
+                "Walnuts\n" +
+                "Fat-free Yoghurt\n" +
+                "Olive Oil ");
+    }
+
+
+
+    public void setUpViews() {
+        tips = (TextView) getActivity().findViewById(R.id.hrt_tips);
+        food_avoid = (TextView) getActivity().findViewById(R.id.HAvoid);
+        prevention = (TextView) getActivity().findViewById(R.id.Hprevention);
+        food_eat = (TextView) getActivity().findViewById(R.id.Hfood);
+    }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -73,17 +118,6 @@ public class HeartCareFrag extends Fragment {
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
         }
     }
 

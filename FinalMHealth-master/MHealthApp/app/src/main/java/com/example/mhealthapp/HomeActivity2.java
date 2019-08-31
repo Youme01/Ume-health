@@ -76,7 +76,6 @@ public class HomeActivity2 extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View navHeaderView = navigationView.getHeaderView(0);
@@ -162,31 +161,30 @@ public class HomeActivity2 extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_home) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flMain, new HomeFragment());
+            ft.replace(R.id.flMain, new HomeFragment()).addToBackStack(null);
             ft.commit();
         } else if (id == R.id.nav_profile) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flMain, new ProfileActivityFrag());
+            ft.replace(R.id.flMain, new ProfileActivityFrag()).addToBackStack(null);
             ft.commit();
-//            Toast.makeText(HomeActivity2.this, "Profile ", Toast.LENGTH_SHORT).show();
-//            startActivity(new Intent(HomeActivity2.this, ProfileActivity.class));
+
         } else if (id == R.id.nav_HeartRateMenu) {
             Toast.makeText(HomeActivity2.this, "Heart Rate is clicked ", Toast.LENGTH_SHORT).show();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flMain, new heartRateWithApi());
+            ft.replace(R.id.flMain, new heartRateWithApi()).addToBackStack(null);
             ft.commit();
 
 
         } else if (id == R.id.nav_ActivityMenu) {
             Toast.makeText(HomeActivity2.this, "ActivityMenu is clicked ", Toast.LENGTH_SHORT).show();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flMain, new Steps());
+            ft.replace(R.id.flMain, new Steps()).addToBackStack(null);
             ft.commit();
 
         } else if (id == R.id.nav_BMIMenu) {
             Toast.makeText(HomeActivity2.this, "BMIMenu is clicked ", Toast.LENGTH_SHORT).show();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flMain, new BMI_Frag());
+            ft.replace(R.id.flMain, new BMI_Frag()).addToBackStack(null);
             ft.commit();
 
         } else if (id == R.id.nav_MealPlanMenu) {
@@ -195,7 +193,7 @@ public class HomeActivity2 extends AppCompatActivity
         } else if (id == R.id.nav_ReminderMenu) {
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flMain, new ListViewFragment());
+            ft.replace(R.id.flMain, new ListViewFragment()).addToBackStack(null);
             ft.commit();
 
         } else if (id == R.id.nav_settings) {
@@ -204,7 +202,7 @@ public class HomeActivity2 extends AppCompatActivity
             Logout();
         }else if (id == R.id.nav_action_FAQ) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flMain, new Faq());
+            ft.replace(R.id.flMain, new Faq()).addToBackStack(null);
             ft.commit();
         }
 

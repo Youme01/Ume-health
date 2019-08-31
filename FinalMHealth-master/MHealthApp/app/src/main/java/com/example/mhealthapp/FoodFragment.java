@@ -195,7 +195,9 @@ public class FoodFragment extends Fragment {
 
             // Move user back to correct design
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flMain, new FoodFragment(), FoodFragment.class.getName()).commit();
+            fragmentManager.beginTransaction().
+                    replace(R.id.flMain, new FoodFragment(), FoodFragment.class.getName())
+                    .addToBackStack(null).commit();
 
         } // error == 0
 

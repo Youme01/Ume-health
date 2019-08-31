@@ -32,6 +32,12 @@
         <item>Two Drops</item>
         <item>Three Drops</item>
     </string-array>
+
+    <string-array name="welcome">
+        <item>Welcome</item>
+        <item>Hey There</item>
+        <item>Keep Eye On Your Health</item>
+    </string-array>
     <string-array name="duration">
         <item>3 days</item>
         <item>1 Week</item>

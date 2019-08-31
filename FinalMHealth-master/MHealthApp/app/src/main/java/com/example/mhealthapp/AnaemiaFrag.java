@@ -24,7 +24,7 @@ import android.widget.TextView;
 public class AnaemiaFrag extends Fragment {
 
 
-    TextView causes,symptoms,treatment,prevention,food_eat,food_avoid;
+    TextView causes,symptoms,treatment,prevention,food_eat;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,7 +52,7 @@ public class AnaemiaFrag extends Fragment {
         );
         symptoms.setText("Fatigue\n" +
                 "Dizziness\n"+
-                "Palpitations\n "+
+                "Palpitations\n"+
                 "Looking pale"
         );
         treatment.setText("Blood Transfusion\n" +

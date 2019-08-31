@@ -328,7 +328,7 @@ public class FoodFragmentS extends Fragment {
             }
 
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flMain, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.flMain, fragment).addToBackStack(null).commit();
 
         }
 

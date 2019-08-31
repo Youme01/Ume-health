@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -25,6 +26,8 @@ public class DiabetesFrag extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    TextView causes,symptoms,prevention,food_eat;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -34,6 +37,44 @@ public class DiabetesFrag extends Fragment {
     public DiabetesFrag() {
         // Required empty public constructor
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setUpViews();
+        causes.setText("Genetic\n" +
+                "Lack of insulin\n"+
+                "Insulin resistance\n "
+        );
+        symptoms.setText("More Bathroom Breaks\n" +
+                "Thirstier\n"+
+                "Lost weight\n"+
+                "Tired"
+        );
+        prevention.setText("Increase your Fiber \n" +
+                "Choose right fats\n"+
+                "Exercise Regularly\n"+
+                "Control your Blood Pressure\n" +
+                "Sleep Well"
+        );
+        food_eat.setText("Apple\n" +
+                "Avocado\n" +
+                "Barley\n" +
+                "Broccoli\n" +
+                "Carrots\n" +
+                "Egg ");
+    }
+
+
+
+    public void setUpViews() {
+        causes = (TextView) getActivity().findViewById(R.id.Dcause);
+        symptoms = (TextView) getActivity().findViewById(R.id.Dsymptoms);
+        prevention = (TextView) getActivity().findViewById(R.id.Dprevention);
+        food_eat = (TextView) getActivity().findViewById(R.id.Dfood);
+    }
+
 
     /**
      * Use this factory method to create a new instance of
